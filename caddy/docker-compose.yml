@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  caddy:
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    healthcheck:
+        test: ["CMD", "caddy", "version"]
+volumes:
+  caddy_data:
+  caddy_config:
