@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    environment:
+      - MH_STORAGE=maildir
+    volumes:
+      - maildir:/maildir
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+volumes:
+  maildir:
