@@ -8,6 +8,9 @@ Various docker-compose files I use on dev or production
 
 ## SMTP/MailServer
 
+## REST
+
+- [postrest poc](https://github.com/JinnaBalu/infinite-docker-compose/tree/main/postrest)
 
 ## Image 
 
@@ -16,6 +19,10 @@ Various docker-compose files I use on dev or production
 ## Monitoring
 
 - tancloud/hertzbeat
+
+# Swagger
+
+- [Swagger UI](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/swagger-ui/docker-compose.yml)
 
 ## AI/ML
 
