@@ -2,6 +2,7 @@ version: "3.8"
 services:
   caddy:
     container_name: caddy
+    image: caddy:latest
     restart: unless-stopped
     ports:
       - "80:80"
