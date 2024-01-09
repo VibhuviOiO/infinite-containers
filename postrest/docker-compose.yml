@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  postgrest:
+    container_name: postgrest
+    image: postgrest/postgrest:latest
+    depends_on:
+      - db
+    restart: unless-stopped
+    environment:
+      PGRST_DB_URI: ${PGRST_DB_URI}
+      PGRST_DB_SCHEMAS: ${PGRST_DB_SCHEMAS}
+      PGRST_DB_ANON_ROLE: ${PGRST_DB_ANON_ROLE}
+      PGRST_JWT_SECRET: ${PGRST_JWT_SECRET}
+      PGRST_DB_USE_LEGACY_GUCS: ${PGRST_DB_USE_LEGACY_GUCS}
+      PGRST_APP_SETTINGS_JWT_SECRET: ${PGRST_APP_SETTINGS_JWT_SECRET}
+      PGRST_APP_SETTINGS_JWT_EXP: ${PGRST_APP_SETTINGS_JWT_EXP}
+
+    ports:
+      - "3000:3000"
