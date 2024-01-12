@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  vector:
+    image: timberio/vector:0.35.0-debian
+    container_name: vector-container
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      VECTOR_CONFIG: |
+        sources:
+          docker_logs:
+            type: "docker_logs"
+            include_containers:
+              - "nginx-container"  # Include the name of your Nginx container
+        sinks:
+          console_sink:
+            type: "console"
+            inputs: ["docker_logs"]
+
+  nginx-container:
+    image: nginx:alpine
+    container_name: nginx-container
+    ports:
+      - "80:80"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+

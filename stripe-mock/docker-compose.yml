@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  stripe-mock:
+    image: stripe/stripe-mock:latest
+    container_name: stripe-mock-container
+    ports:
+      - "12111:12111"
+
+# Test: curl -i http://localhost:12111/v1/charges -H "Authorization: Bearer sk_test_123"
