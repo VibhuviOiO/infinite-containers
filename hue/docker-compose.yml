@@ -1,0 +1,105 @@
+version: '2.1'
+services:
+  jobmanager:
+    image: romainr/flink:1.11.1
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+  taskmanager:
+    image: romainr/flink:1.11.1
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 10
+  datagen:
+    image: jark/datagen:0.2
+    command: "java -classpath /opt/datagen/flink-sql-demo.jar myflink.SourceGenerator --input /opt/datagen/user_behavior.log --output kafka kafka:9094 --speedup 2000"
+    depends_on:
+      - kafka
+    environment:
+      ZOOKEEPER_CONNECT: zookeeper
+      KAFKA_BOOTSTRAP: kafka
+  mysql:
+    image: jark/mysql-example:0.2
+    ports:
+      - "13306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_TCP_PORT=13306
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka:2.12-2.2.1
+    ports:
+      - "9092:9092"
+      - "9094:9094"
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_ADVERTISED_LISTENERS=INSIDE://:9094,OUTSIDE://localhost:9092
+      - KAFKA_LISTENERS=INSIDE://:9094,OUTSIDE://:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CREATE_TOPICS="user_behavior:1:1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  flink-sql-api:
+    image: romainr/flink-sql-api:1.11.1
+    container_name: flink-sql-api
+    ports:
+      - "8083:8083"
+    depends_on:
+      - jobmanager
+  ksqldb-server:
+    image: confluentinc/ksqldb-server:0.12.0
+    hostname: ksqldb-server
+    container_name: ksqldb-server
+    ports:
+      - "8088:8088"
+    environment:
+      KSQL_LISTENERS: http://0.0.0.0:8088
+      KSQL_BOOTSTRAP_SERVERS: kafka:9094
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+  ksqldb-cli:
+    image: confluentinc/ksqldb-cli:0.12.0
+    container_name: ksqldb-cli
+    depends_on:
+      - ksqldb-server
+    entrypoint: /bin/sh
+    tty: true
+  hue:
+    image: romainr/hue:demo-streams-v3
+    hostname: hue
+    container_name: hue
+    ports:
+      - "8888:8888"
+    depends_on:
+      - hue-database
+    command: ["./wait-for-it.sh", "hue-database:3306", "--", "./startup.sh"]
+  hue-database:
+    image: mysql:5.7
+    container_name: hue-database
+    ports:
+      - "33061:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: hue
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: hue
+volumes:
+  data:
