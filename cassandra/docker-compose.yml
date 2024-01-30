@@ -1,0 +1,26 @@
+
+version: '3.9'
+networks:
+  cassandra:
+services:
+  cassandra:
+    image: cassandra:3.11.10
+    container_name: cassandra
+    hostname: cassandra
+    healthcheck:
+        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
+        interval: 5s
+        timeout: 5s
+        retries: 60
+    networks:
+      - cassandra
+    ports:
+      - "9042:9042"
+    volumes:
+      - ./cassandra-db:/var/lib/cassandra
+    environment: &environment
+        CASSANDRA_CLUSTER_NAME: SolarSystem
+        CASSANDRA_DC: Mars
+        CASSANDRA_RACK: West
+        CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+        CASSANDRA_NUM_TOKENS: 128
