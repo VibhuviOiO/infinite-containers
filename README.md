@@ -1,10 +1,14 @@
 # infinite-docker-compose
 
 Various docker-compose files I use on dev or production
+## AI/ML
+
+- [Ollama and Ollama WebUI](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/ollama/docker-compose.yml)
+- [Flowise](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/flowise/docker-compose.yml)
 
 ## LB/Reverse Proxy/Application Server
 
-- [caddy](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/caddy/docker-compose.yml)
+- [Caddy](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/caddy/docker-compose.yml)
 
 ## SMTP/MailServer
 
@@ -33,7 +37,3 @@ Various docker-compose files I use on dev or production
 
 - [Swagger UI](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/swagger-ui/docker-compose.yml)
 
-## AI/ML
-
-- ollama
-- ollama web-ui
