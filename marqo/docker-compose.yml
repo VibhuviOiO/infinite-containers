@@ -1,0 +1,11 @@
+version: '3'
+services:
+  marqo:
+    image: marqoai/marqo:latest
+    container_name: marqo
+    ports:
+      - "8882:8882"
+    volumes:
+      - ./marqo_cache:/app/src/marqo/cache
+    stdin_open: true
+    tty: true

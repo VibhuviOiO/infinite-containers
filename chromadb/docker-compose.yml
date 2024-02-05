@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  chromadb:
+    container_name: chromadb
+    image: chromadb/chroma:0.4.22.dev44
+    ports:
+      - 8000:8000
+    volumes:
+      - ./chroma-db:/chroma/chroma

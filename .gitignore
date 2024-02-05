@@ -1,2 +1,4 @@
 cassandra-db
 node_modules
+qdrant_storage
+marqo_cache
