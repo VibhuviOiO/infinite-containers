@@ -1,7 +1,7 @@
 # infinite-docker-compose
 
 Various docker-compose files I use on dev or production
-#### AI/ML
+#### AI | ML
 
 - [Ollama and Ollama WebUI](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/ollama/docker-compose.yml) - run LLMs in local 
 - [Flowise](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/flowise/docker-compose.yml) - Visual UI for LLM orchestration flow
@@ -10,11 +10,11 @@ Various docker-compose files I use on dev or production
 - [ChromaDB](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/chromadb/docker-compose.yml) - Vector embeddings database
 
 
-#### LB/Reverse Proxy/Application Server
+#### LB | Reverse Proxy | Application Server
 
 - [Caddy](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/caddy/docker-compose.yml)
 
-#### SMTP/MailServer
+#### SMTP | MailServer
 
 #### REST
 
