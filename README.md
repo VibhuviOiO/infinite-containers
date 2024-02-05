@@ -37,7 +37,10 @@ Various docker-compose files I use on dev or production
 #### Mock
 - [stripe-mock](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/stripe-mock/docker-compose.yml) 
 
-# Swagger
+#### Note Taking 
+- [Memos](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/memos/docker-compose.yml)
+
+#### Swagger
 
 - [Swagger UI](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/swagger-ui/docker-compose.yml)
 
