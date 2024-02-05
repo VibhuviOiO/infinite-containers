@@ -3,11 +3,11 @@
 Various docker-compose files I use on dev or production
 #### AI/ML
 
-- [Ollama and Ollama WebUI](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/ollama/docker-compose.yml)
-- [Flowise](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/flowise/docker-compose.yml)
-- [VecorDb : Marqo](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/marqo/docker-compose.yml)
-- [VectorDB : Qdrant](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/qdrant/docker-compose.yml)
-- [ChromaDB](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/chromadb/docker-compose.yml)
+- [Ollama and Ollama WebUI](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/ollama/docker-compose.yml) - run LLMs in local 
+- [Flowise](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/flowise/docker-compose.yml) - Visual UI for LLM orchestration flow
+- [Marqo](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/marqo/docker-compose.yml) - Vector database and vector search engine
+- [Qdrant](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/qdrant/docker-compose.yml) - Vector database and vector search engine
+- [ChromaDB](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/chromadb/docker-compose.yml) - Vector embeddings database
 
 
 #### LB/Reverse Proxy/Application Server
