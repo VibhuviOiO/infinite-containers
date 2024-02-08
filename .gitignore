@@ -1,5 +1,28 @@
+
 cassandra-db
 node_modules
 qdrant_storage
 marqo_cache
+memos_data
+docker_registry
+
+
+# DRAFTS
+zeppelin
+keycloak
+airflow
+airflow-custom
 memos
+
+# vscode
+.history
+.ionide
+*.vsix
+.history/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.DS_Store
