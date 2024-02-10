@@ -12,7 +12,6 @@ zeppelin
 keycloak
 airflow
 airflow-custom
-memos
 
 # vscode
 .history

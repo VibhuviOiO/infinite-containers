@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  memos:
+    image: neosmemo/memos:stable
+    container_name: memos
+    ports:
+      - "5230:5230"
+    volumes:
+      - ./memos_data:/var/opt/memos
+    restart: always
