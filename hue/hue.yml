@@ -1,0 +1,28 @@
+version: '2.1'
+services:
+  hue:
+    image: gethue/hue:latest
+    hostname: hue
+    container_name: hue
+    ports:
+      - "8888:8888"
+    depends_on:
+      - hue-database
+    command: ["./wait-for-it.sh", "hue-database:5432", "--", "./startup.sh"]
+    environment:
+      HUE_DATABASE_ENGINE: postgres
+      HUE_DATABASE_HOST: hue-database
+      HUE_DATABASE_PORT: 5432
+      HUE_DATABASE_USER: hue
+      HUE_DATABASE_PASSWORD: secret
+  hue-database:
+    image: postgres:latest
+    container_name: hue-database
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: hue
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: hue
