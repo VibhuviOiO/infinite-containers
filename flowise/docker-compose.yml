@@ -9,8 +9,10 @@ services:
           - APIKEY_PATH=/root/.flowise
           - SECRETKEY_PATH=/root/.flowise
           - LOG_PATH=/root/.flowise/logs
+          - FLOWISE_USERNAME=flowise
+          - FLOWISE_PASSWORD=flowise
         ports:
-            - '${PORT}:${PORT}'
+            - '3000:3000'
         volumes:
             - ~/.flowise:/root/.flowise
         command: /bin/sh -c "sleep 3; flowise start"
