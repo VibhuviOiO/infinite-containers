@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  hazelcast-node1:
+    image: hazelcast/hazelcast:5.4.0
+    container_name: hazelcast-node1
+    volumes:
+      # - ./hazelcast.yml:/opt/hazelcast/config/hazelcast.yml
+      - ./jvm.options:/opt/hazelcast/config/jvm.options
+      - ./log4j2.properties:/opt/hazelcast/config/log4j2.properties
+    environment:
+      # - HAZELCAST_CONFIG=/opt/hazelcast/config/hazelcast.yml
+      - LOGGING_LEVEL=DEBUG
+      # - LOGGING_PATTERN=
+      # - JAVA_OPTS=-XX:MaxRAMPercentage=85.0
+      # - HZ_NETWORK_PUBLICADDRESS=hazelcast-node1:5701
+    ports:
+      - "5701:5701"
+    networks:
+      - hazelcast-network
+    restart: always
+    mem_limit: 2g
+
+  hazelcast-node2:
+    image: hazelcast/hazelcast:5.4.0
+    container_name: hazelcast-node2
+    volumes:
+      # - ./hazelcast.yml:/opt/hazelcast/config/hazelcast.yml
+      - ./jvm.options:/opt/hazelcast/config/jvm.options
+      - ./log4j2.properties:/opt/hazelcast/config/log4j2.properties
+    environment:
+      # - HAZELCAST_CONFIG=/opt/hazelcast/config/hazelcast.yml
+      - LOGGING_LEVEL=DEBUG
+      # - LOGGING_PATTERN=
+      # - JAVA_OPTS=-XX:MaxRAMPercentage=85.0
+      # - HZ_NETWORK_PUBLICADDRESS=hazelcast-node1:5701
+    ports:
+      - "5702:5701"
+    networks:
+      - hazelcast-network
+    restart: always
+    mem_limit: 2g
+
+networks:
+  hazelcast-network:
+    driver: bridge

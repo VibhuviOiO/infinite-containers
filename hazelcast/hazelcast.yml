@@ -1,0 +1,10 @@
+hazelcast:
+  network:
+    join:
+      multicast:
+        enabled: false
+      tcp-ip:
+        enabled: true
+        member-list:
+          - 192.168.1.12:5701
+          - 192.168.1.13:5701

@@ -1,6 +1,7 @@
 # infinite-docker-compose
 
 Various docker-compose files I use on dev or production
+
 #### AI | ML
 
 - [Ollama and Ollama WebUI](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/ollama/docker-compose.yml) - run LLMs in local 
@@ -9,6 +10,9 @@ Various docker-compose files I use on dev or production
 - [Qdrant](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/qdrant/docker-compose.yml) - Vector database and vector search engine
 - [ChromaDB](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/chromadb/docker-compose.yml) - Vector embeddings database
 
+#### Hacking Tools 
+
+[kasam]()
 
 #### LB | Reverse Proxy | Application Server
 
