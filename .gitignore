@@ -5,7 +5,7 @@ qdrant_storage
 marqo_cache
 memos_data
 docker_registry
-
+data
 
 # DRAFTS
 zeppelin

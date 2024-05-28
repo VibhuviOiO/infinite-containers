@@ -1,0 +1,3 @@
+- pipeline.id: s32es
+  path.config: "/usr/share/logstash/pipeline/s3-es.config"
+  pipeline.workers: 3

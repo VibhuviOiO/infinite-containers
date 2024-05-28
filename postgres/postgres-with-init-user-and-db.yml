@@ -1,0 +1,31 @@
+---
+version: '3'
+services:
+  postgresql:
+    image: postgres:12.3
+    container_name: postgres
+    volumes:
+      # Uncomment below to maintain the persistent data
+      - ct-data:/var/lib/postgresql/data/
+      # Uncomment bellow to initialize the container with data by creating the respective file
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=postgress
+      - POSTGRES_PASSWORD=postgress
+    ports: ['5432:5432']
+    networks: ['stack']
+    healthcheck:
+      test: curl -s https://localhost:5432 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports: ['8080:8080']
+
+volumes:
+  ct-data:
+networks:
+  stack:

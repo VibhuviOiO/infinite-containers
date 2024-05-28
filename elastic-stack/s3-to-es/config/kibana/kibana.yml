@@ -1,0 +1,7 @@
+server.port: 5601
+server.host: '0.0.0.0'
+server.basePath: '/monitoringkibana'
+server.rewriteBasePath: true
+elasticsearch.hosts: "http://elasticsearch:9200"
+xpack.monitoring.ui.container.elasticsearch.enabled: true 
+xpack.monitoring.min_interval_seconds: 60

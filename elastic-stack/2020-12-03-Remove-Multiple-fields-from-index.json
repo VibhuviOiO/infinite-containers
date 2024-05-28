@@ -1,0 +1,7 @@
+
+POST student/_update_by_query?conflicts=proceed
+{
+  "script": {
+    "source": "ctx._source.remove('studentName');",
+    "lang": "painless"
+  }

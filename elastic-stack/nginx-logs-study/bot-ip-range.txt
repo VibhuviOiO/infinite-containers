@@ -1,0 +1,4 @@
+The Bot IPs can fall into these two separate IP ranges.
+
+91.207.9.1 - 91.207.9.255
+102.38.229.1 - 102.38.229.255

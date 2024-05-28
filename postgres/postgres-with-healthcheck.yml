@@ -1,0 +1,19 @@
+version: '3'
+services:
+  postgress-postgresql:
+    image: postgres:11.4
+    container_name: postgres
+    volumes:
+        - data-postgresql:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgress
+      - POSTGRES_PASSWORD=
+    ports: ['5432:5432']
+    healthcheck:
+      test: curl -s https://localhost:5432 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  data-postgresql:

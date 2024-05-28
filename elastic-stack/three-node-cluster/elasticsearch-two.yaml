@@ -1,0 +1,36 @@
+version: '3.3'
+services:
+  es-two:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.4.1
+    container_name: ws-elasticsearch-two
+    environment:
+      - "ES_JAVA_OPTS=-Xms8g -Xmx8g"
+      - cluster.name=vbv-cluster
+      - node.name="ws-es-two"
+      - network.publish_host=10.10.10.66
+      - network.bind_host=0.0.0.0
+      - discovery.zen.ping.unicast.hosts=10.10.10.66,10.10.10.66,10.10.10.66
+      - node.master=true
+      - discovery.zen.minimum_master_nodes=2
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=false
+      - xpack.watcher.enabled=false
+      - xpack.ml.enabled=false
+      - search.max_buckets=1000
+      - indices.breaker.request.limit=40%
+      - xpack.license.self_generated.type=basic
+    volumes:
+      - ./logging.yml:/usr/share/elasticsearch/config/logging.yml
+      - esdata-two:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    restart: always
+
+volumes:
+  esdata-two:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /var/enc/db/elasticsearch2/data

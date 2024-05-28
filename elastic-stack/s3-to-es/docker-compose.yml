@@ -1,0 +1,74 @@
+
+version: '3.7'
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.1
+    ports: ['9200:9200']
+    networks: ['monitoring']
+    environment:
+      cluster.name: "monitoring-cluster"
+      node.name: "es-node-one"
+      network.host: 0.0.0.0
+      transport.host: 0.0.0.0
+      discovery.type: single-node
+      ES_JAVA_OPTS: -Xms3g -Xmx3g
+      xpack.license.self_generated.type: basic
+      xpack.monitoring.history.duration: 7d
+      xpack.monitoring.collection.enabled: "true"
+      xpack.monitoring.collection.interval: 60s
+      xpack.security.enabled: "false"
+      script.painless.regex.enabled: "true"
+      bootstrap.memory_lock: "true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - 'es_data:/usr/share/elasticsearch/data'
+    healthcheck:
+      test: curl -s https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.1.1
+    container_name: logstash
+    networks: ['monitoring']
+    ports: ["5044:5044", "9600:9600"]
+    restart: always
+    volumes:
+      - ./pipeline:/usr/share/logstash/pipeline/
+    secrets:
+      - source: logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+    healthcheck:
+      test: bin/logstash -t
+      interval: 60s
+      timeout: 50s
+      retries: 5
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:8.1.1
+    ports: ['5601:5601']
+    networks: ['monitoring']
+    depends_on: ['elasticsearch']
+    secrets:
+      - source: kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+    healthcheck:
+      test: curl -s https://localhost:5601 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+networks: 
+  monitoring:
+    external:
+      name: monitoring
+secrets:
+  kibana.yml:
+    file: ./config/kibana/kibana.yml
+  logstash.yml:
+    file: ./config/logstash/logstash.yml
+volumes:
+    es_data:

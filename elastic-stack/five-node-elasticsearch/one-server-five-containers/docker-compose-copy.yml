@@ -1,0 +1,136 @@
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.3
+    container_name: es01
+    volumes:
+      - ./volume_sfo2_04/es_data/es01:/usr/share/elasticsearch/data
+      - ./volume_sfo2_04/es_backup/es01:/usr/share/elasticsearch/backup
+    ports:
+      - 9200:9200
+    environment:
+      - node.name=es01
+      - cluster.name=es_knn_multinode
+      - cluster.initial_master_nodes=es01,es02,es03
+      - discovery.seed_hosts=es02,es03
+      - ELASTIC_PASSWORD=abcd1234
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - network.host=0.0.0.0
+      - http.cors.enabled=true
+      - http.cors.allow-origin="*"
+      - http.cors.allow-headers="Authorization"
+      - path.repo=["/usr/share/elasticsearch/backup"]
+      - LICENSE=trial
+    # mem_limit: 1073741824
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  es02:
+    depends_on:
+      - es01
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.3
+    container_name: es02
+    volumes:
+      - ./volume_sfo2_04/es_data/es02:/usr/share/elasticsearch/data
+      - ./volume_sfo2_04/es_backup/es02:/usr/share/elasticsearch/backup
+    environment:
+      - node.name=es02
+      - cluster.name=es_knn_multinode
+      - cluster.initial_master_nodes=es01,es02,es03
+      - discovery.seed_hosts=es01,es03
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+    # mem_limit: 1073741824
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  es03:
+    depends_on:
+      - es02
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.3
+    container_name: es03
+    volumes:
+      - ./volume_sfo2_04/es_data/es03:/usr/share/elasticsearch/data
+      - ./volume_sfo2_04/es_backup/es03:/usr/share/elasticsearch/backup
+    environment:
+      - node.name=es03
+      - cluster.name=es_knn_multinode
+      - cluster.initial_master_nodes=es01,es02,es03
+      - discovery.seed_hosts=es01,es02
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+    # mem_limit: 1073741824
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  es04:
+    depends_on:
+      - es03
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.3
+    container_name: es04
+    volumes:
+      - ./volume_sfo2_04/es_data/es04:/usr/share/elasticsearch/data
+      - ./volume_sfo2_04/es_backup/es04:/usr/share/elasticsearch/backup
+    environment:
+      - node.name=es04
+      - cluster.name=es_knn_multinode
+      - cluster.initial_master_nodes=es01,es02,es03,es04,es05
+      - discovery.seed_hosts=es01,es02,es03,es05
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - network.host=0.0.0.0
+      - http.cors.enabled=true
+      - http.cors.allow-origin="*"
+      - http.cors.allow-headers="Authorization"
+      - path.repo=["/usr/share/elasticsearch/backup"]
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.enabled=false
+      - LICENSE=trial
+    # mem_limit: 1073741824
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  es05:
+    depends_on:
+      - es04
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.3
+    container_name: es05
+    volumes:
+      - ./volume_sfo2_04/es_data/es05:/usr/share/elasticsearch/data
+      - ./volume_sfo2_04/es_backup/es05:/usr/share/elasticsearch/backup
+    environment:
+      - node.name=es05
+      - cluster.name=es_knn_multinode
+      - cluster.initial_master_nodes=es01,es02,es03,es04,es05
+      - discovery.seed_hosts=es01,es02,es03,es04
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - network.host=0.0.0.0
+      - http.cors.enabled=true
+      - http.cors.allow-origin="*"
+      - http.cors.allow-headers="Authorization"
+      - path.repo=["/usr/share/elasticsearch/backup"]
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.enabled=false
+      - LICENSE=trial
+    # mem_limit: 1073741824
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.1.3
+    container_name: kibana
+    volumes:
+      - ./volume_sfo2_04/kibanadata:/usr/share/kibana/data
+    ports:
+      - 5601:5601
+    # mem_limit: 1073741824
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=http://es01:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=abcd1234

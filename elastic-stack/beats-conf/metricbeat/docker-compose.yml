@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:8.1.3
+    container_name: metricbeat
+    volumes:
+      - ./config/metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+    command: '-strict.perms=false'
+    networks: ['monitoring']
+    healthcheck:
+      test: metricbeat test config
+      interval: 30s
+      timeout: 15s
+      retries: 5
+networks:
+  monitoring:
+    external:
+      name: monitoring

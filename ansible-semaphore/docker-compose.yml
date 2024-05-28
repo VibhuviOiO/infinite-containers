@@ -1,0 +1,15 @@
+services:
+  semaphore:
+    ports:
+      - 3002:3000
+    image: semaphoreui/semaphore:latest
+    environment:
+      SEMAPHORE_DB_DIALECT: bolt
+      SEMAPHORE_ADMIN_PASSWORD: changeme
+      SEMAPHORE_ADMIN_NAME: admin
+      SEMAPHORE_ADMIN_EMAIL: admin@localhost
+      SEMAPHORE_ADMIN: admin
+      TZ: Europe/Berlin
+    volumes:
+      - ./data/home:/etc/semaphore
+      - ./data/lib:/var/lib/semaphore

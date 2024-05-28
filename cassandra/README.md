@@ -1,4 +1,22 @@
+# Cassandra Operations
+
+1.  [**Running Cassandra as a Docker Container with Docker Compose**](./single-node-cassandra-container.md)
+2.  **Interacting with cqlsh when running Cassandra as a Container**
+3. **Dump and Restore the keyspace**
+4.  **Creating a Two-Node Cassandra Cluster with Docker Compose**
+5.  **Understanding Split Brain Issues in a Two-Node Cluster and Why It's Not Recommended**
+6.  **Running Cassandra as a Three-Node Cluster for Production Use**
+7.  **Configuring a Client to Connect to Cassandra with 100% Availability**
+8.  **Performing a Rolling Restart of a Cassandra Cluster**
+9.  **How to Delete an Existing Node and Add a New Node in Cassandra**
+10.  **Recovering from Disasters and Defining Quorum for High Availability**
+11.  **Monitoring Cassandra Effectively with Prometheus and Grafana**
+12. **Centralized logging with ELK**
+13. **Centralized logging with ELK**
+
 # Running cassandra as container
+
+
 
 - Run cassandra container with `docker-compose up -d`
 - Create keyspace and tables in the cassandra with the following

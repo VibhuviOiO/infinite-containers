@@ -1,0 +1,28 @@
+
+version: '3.7'
+services:
+  elasticsearch-one:
+    container_name: elasticsearch-one
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ES_VERSION}
+    ports: ['9200:9200', '9300:9300']
+    env_file:
+      - ./.env
+    environment:
+      cluster.name: "test-remote-cluster"
+      node.name: "es-node-one"
+      network.host: 0.0.0.0
+      network.publish_host: ${NODE_ONE_IP}
+      transport.host: 0.0.0.0
+      discovery.zen.minimum_master_nodes: 1
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      xpack.license.self_generated.type: basic
+    volumes:
+      - 'es_data:/usr/share/elasticsearch-one/data'
+    healthcheck:
+      test: curl -s https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+volumes:
+    es_data:

@@ -17,8 +17,8 @@ services:
     ports:
       - "9042:9042"
     volumes:
-      - ./cassandra-db:/var/lib/cassandra
-    environment: &environment
+      - ./data:/var/lib/cassandra
+    environment: 
         CASSANDRA_CLUSTER_NAME: SolarSystem
         CASSANDRA_DC: Mars
         CASSANDRA_RACK: West

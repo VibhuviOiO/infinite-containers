@@ -1,0 +1,22 @@
+---
+version: '3.6'
+services:
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.2.1
+    container_name: logstash
+    environment:
+      INPUT_TCP_PORT: 5000
+      INPUT_UDP_PORT: 5000
+      INPUT_HTTP_PORT: 5001
+      ELASTICSEARCH_HOST: 10.10.254.194
+      ELASTICSEARCH_PORT: 9200
+    volumes:
+       - ./log-conf/:/usr/share/logstash/pipeline/
+    networks: ['stack']
+    depends_on: ['elasticsearch']
+    healthcheck:
+      test: bin/logstash -t
+      interval: 60s
+      timeout: 50s
+      retries: 5
+

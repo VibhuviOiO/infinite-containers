@@ -1,0 +1,70 @@
+{
+    "index": "<entityName>tagstore",
+    "shard": 4,
+    "primary": false,
+    "current_state": "unassigned",
+    "unassigned_info": {
+        "reason": "NODE_LEFT",
+        "at": "2022-06-03T13:08:21.103Z",
+        "details": "node_left[<DETAILS>]",
+        "last_allocation_status": "no_attempt"
+    },
+    "can_allocate": "throttled",
+    "allocate_explanation": "allocation temporarily throttled",
+    "node_allocation_decisions": [
+        {
+            "node_id": "<NODE_ID>",
+            "node_name": "vbv-estwo",
+            "transport_address": "10.10.11.34:9300",
+            "node_attributes": {
+                "aws_availability_zone": "<AWS_AVAILABILITY_ZONE>",
+                "xpack.installed": "true"
+            },
+            "node_decision": "throttled",
+            "store": {
+                "matching_sync_id": true
+            },
+            "deciders": [
+                {
+                    "decider": "throttling",
+                    "decision": "THROTTLE",
+                    "explanation": "reached the limit of outgoing shard recoveries [2] on the node [<NODEFOUR_ID>] which holds the primary, cluster setting [cluster.routing.allocation.node_concurrent_outgoing_recoveries=2] (can also be set via [cluster.routing.allocation.node_concurrent_recoveries])"
+                }
+            ]
+        },
+        {
+            "node_id": "<NODETHREE_ID>",
+            "node_name": "vbv-esthree",
+            "transport_address": "10.10.12.34:9300",
+            "node_attributes": {
+                "aws_availability_zone": "eu-west-1c",
+                "xpack.installed": "true"
+            },
+            "node_decision": "throttled",
+            "deciders": [
+                {
+                    "decider": "throttling",
+                    "decision": "THROTTLE",
+                    "explanation": "reached the limit of incoming shard recoveries [2], cluster setting [cluster.routing.allocation.node_concurrent_incoming_recoveries=2] (can also be set via [cluster.routing.allocation.node_concurrent_recoveries])"
+                }
+            ]
+        },
+        {
+            "node_id": "<NODEFIVE_ID>",
+            "node_name": "vbv-esfive",
+            "transport_address": "10.10.11.38:9300",
+            "node_attributes": {
+                "aws_availability_zone": "<AWS_AVAILABILITY_ZONE>",
+                "xpack.installed": "true"
+            },
+            "node_decision": "throttled",
+            "deciders": [
+                {
+                    "decider": "throttling",
+                    "decision": "THROTTLE",
+                    "explanation": "reached the limit of incoming shard recoveries [2], cluster setting [cluster.routing.allocation.node_concurrent_incoming_recoveries=2] (can also be set via [cluster.routing.allocation.node_concurrent_recoveries])"
+                }
+            ]
+        }
+    ]
+}

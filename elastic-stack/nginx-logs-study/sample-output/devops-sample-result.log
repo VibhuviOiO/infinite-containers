@@ -1,0 +1,12 @@
+Total 5 attacks detected.
+
+Attack #1 detected (type - not sure) - starting at timestamp => 2022-04-07 08:00:28.280296
+Attack #1 detected - ending at timestamp => 2022-04-07 08:06:39.280296
+Attack #2 (possible DOS attack) detected - starting at at timestamp => 2022-04-10 18:23:36.280296
+Attack #2 detected - ending at => 2022-04-10 18:43:14.023296
+Attack #3 detected (type - not sure) - starting at timestamp  => 2022-04-12 08:34:36.023296
+Attack #3 detected - ending at timestamp  => 2022-04-12 08:38:42.023296
+Attack #4 (possible DOS attack) detected - starting at timestamp => 2022-04-14 06:32:25.023296
+Attack #4 detected - ending at timestamp => 2022-04-14 07:01:28.635296
+Attack #5 detected (type: Bot IP attacks)- starting at timestamp  => 2022-04-18 19:51:20.635296
+Attack #5 detected - ending at timestamp  => 2022-04-18 19:52:30.635296

@@ -1,0 +1,31 @@
+metricbeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.codec: best_compression
+ 
+xpack.monitoring.enabled: true
+setup.dashboards.enabled: true
+
+xpack.monitoring.exporters:
+  id1:
+    type: http
+    host: ["elasticsearch:9200"]
+
+setup.kibana:
+  host: "http://kibana:5601"
+  protocol: "http"
+  ssl.enabled: false
+
+metricbeat.modules:
+- module: elasticsearch
+  metricsets:
+    - node
+    - node_stats
+    - index
+    - index_summary
+    - shard
+  period: 20s
+  hosts: ["http://192.168.0.8:9200"]

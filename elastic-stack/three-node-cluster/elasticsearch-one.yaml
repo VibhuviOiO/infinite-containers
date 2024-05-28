@@ -1,0 +1,43 @@
+version: '3.3'
+services:
+  elasticsearch-one:
+    container_name: vbvelasticsearch-one
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.4.1
+    environment:
+      - "ES_JAVA_OPTS=-Xms8g -Xmx8g"
+      # When the machine has 16GB, Xms & Xmx is set to TOTAL_RAM/2
+      - cluster.name=vbv-cluster
+      - node.name="vbves-one"
+      - network.publish_host=10.10.10.66
+      - network.bind_host=0.0.0.0
+      - discovery.zen.ping.unicast.hosts=10.10.10.66,10.10.10.66,10.10.10.66
+      - node.master=true
+      - discovery.zen.minimum_master_nodes=2
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=false
+      - xpack.watcher.enabled=false
+      - xpack.ml.enabled=false
+      - search.max_buckets=1000
+      - indices.breaker.request.limit=40%
+    volumes:
+      - esdata-one:/usr/share/elasticsearch/data
+      - es-logs-one:/usr/share/elasticsearch/logs
+      - ./elasticsearch-one-config.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    ports:
+      - 9200:9200
+      - 9300:9300
+    restart: always
+    healthcheck:
+      test: curl -s http://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  esdata-one:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /var/enc/db/elasticsearch1/data

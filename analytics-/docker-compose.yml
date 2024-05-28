@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  eda:
+    image: jortilles/eda:latest
+    ports:
+      - "80:80"
