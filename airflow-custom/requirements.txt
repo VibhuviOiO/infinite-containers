@@ -1,0 +1,5 @@
+fabric==3.2.2
+boto3==1.34.37
+pytest==8.0.0
+pytest-cov==4.1.0
+awscli==1.32.37

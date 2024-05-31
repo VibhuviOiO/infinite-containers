@@ -1,6 +1,6 @@
 # Elasticsearch Reindexing API
 
-## Get Mapings and setting 
+## Get mappings and setting 
 
 ```bash
 curl -XGET 'localhost:9200/<INDEX_NAME>/_mappings?pretty' >> original-mappings-settings.json

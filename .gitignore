@@ -10,8 +10,6 @@ data
 # DRAFTS
 zeppelin
 keycloak
-airflow
-airflow-custom
 
 # vscode
 .history
