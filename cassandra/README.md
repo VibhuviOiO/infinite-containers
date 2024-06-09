@@ -1,7 +1,7 @@
 # Cassandra Operations
 
-1.  [**Running Cassandra as a Docker Container with Docker Compose**](./single-node-cassandra-container.md)
-2.  **Interacting with cqlsh when running Cassandra as a Container**
+1.  [**Running Cassandra as a Docker Container with Docker Compose**](https://github.com/jinnabaalu/infinite-docker-compose/blob/main/cassandra/1.single-node-cassandra-container.md)
+2.  [**Interacting with cqlsh**](https://github.com/jinnabaalu/infinite-docker-compose/blob/main/cassandra/2.interact-with-cqlsh.md)
 3. **Dump and Restore the keyspace**
 4.  **Creating a Two-Node Cassandra Cluster with Docker Compose**
 5.  **Understanding Split Brain Issues in a Two-Node Cluster and Why It's Not Recommended**
@@ -12,52 +12,3 @@
 10.  **Recovering from Disasters and Defining Quorum for High Availability**
 11.  **Monitoring Cassandra Effectively with Prometheus and Grafana**
 12. **Centralized logging with ELK**
-13. **Centralized logging with ELK**
-
-# Running cassandra as container
-
-
-
-- Run cassandra container with `docker-compose up -d`
-- Create keyspace and tables in the cassandra with the following
-```bash
-docker exec -it cassandra bash
-
-## OUTPUT: 
-
-root@cassandra-db:/# cqlsh
-Connected to SolarSystem at 127.0.0.1:9042.
-[cqlsh 5.0.1 | Cassandra 3.11.10 | CQL spec 3.4.4 | Native protocol v4]
-Use HELP for help.
-cqlsh> 
-
-## Create keyspace 
-
-cqlsh> CREATE KEYSPACE ramayana
-   ... WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
-cqlsh> use ramayana ;
-cqlsh:ramayana>
-
-## Create table 
-
-cqlsh:ramayana> CREATE TABLE ramayana.characters (
-            ...     id UUID PRIMARY KEY,
-            ...     name TEXT,
-            ...     description TEXT
-            ... );
-
-## Insert some data
-
-cqlsh:ramayana> INSERT INTO characters (id, name, description) VALUES (uuid(), 'Rama', 'Hero of the Ramayana, seventh avatar of Vishnu.');
-cqlsh:ramayana> INSERT INTO characters (id, name, description) VALUES (uuid(), 'Sita', 'Wife of Rama and central character of the Ramayana.');
-cqlsh:ramayana> INSERT INTO characters (id, name, description) VALUES (uuid(), 'Lakshmana', 'Brother of Rama and loyal companion.');
-```
-
-### Test Client with NodeJS
-- Create npm application `npm init -y`
-- Install cassandra driver `npm install cassandra-driver`
-- Run the index.js (Review the code for index.js which is copied from the cassandra-driver package )
-
-```
-node index.js
-```
