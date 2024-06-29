@@ -9,8 +9,7 @@ data
 
 # DRAFTS
 zeppelin
-keycloak
-
+openldap
 # vscode
 .history
 .ionide
