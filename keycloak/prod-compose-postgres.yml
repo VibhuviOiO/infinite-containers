@@ -30,7 +30,7 @@ services:
     depends_on:
       - postgres
     restart: unless-stopped
-    command: start --optimized
+    command: start
 
   postgres:
     image: postgres:latest
