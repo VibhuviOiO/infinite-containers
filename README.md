@@ -14,6 +14,8 @@ Various docker-compose files I use on dev or production
 
 [kasam]()
 
+#### IAM 
+[keycloak](https://github.com/ContainerTalks/infinite-docker-compose/tree/main/keycloak) -  <a href="https://www.youtube.com/watch?v=9kjUna4taxI">Demo</a>
 #### LB | Reverse Proxy | Application Server
 
 - [Caddy](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/caddy/docker-compose.yml)
