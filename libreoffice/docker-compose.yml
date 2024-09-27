@@ -3,7 +3,7 @@ services:
     image: lscr.io/linuxserver/libreoffice:latest
     container_name: libreoffice
     security_opt:
-      - seccomp=unconfined  # Optional security setting
+      - seccomp=unconfined
     environment:
       - PUID=1000
       - PGID=1000
