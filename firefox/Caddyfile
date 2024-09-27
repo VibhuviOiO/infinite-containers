@@ -1,0 +1,4 @@
+firefox.jinnabalu.local {
+    reverse_proxy firefox:3001
+    tls internal
+}
