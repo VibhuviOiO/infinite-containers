@@ -1,0 +1,14 @@
+services:
+  libreoffice:
+    image: lscr.io/linuxserver/libreoffice:latest
+    container_name: libreoffice
+    security_opt:
+      - seccomp=unconfined  # Optional security setting
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    restart: unless-stopped
