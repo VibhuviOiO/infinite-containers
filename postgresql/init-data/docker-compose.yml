@@ -1,0 +1,18 @@
+services:
+  postgress-postgresql:
+    image: postgres:bullseye
+    container_name: postgres
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=postgress
+      - POSTGRES_PASSWORD=MyStrongPassword123
+    ports:
+      - 5432:5432
+    networks:
+      - postgres
+networks:
+  postgres:
+volumes:
+  postgresql_data:
