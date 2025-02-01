@@ -1,0 +1,29 @@
+version: '3.8'
+
+networks:
+  cassandra-net:
+    external: true
+    name: cassandra-network
+
+services:
+  cassandra-node1:
+    image: cassandra:latest
+    container_name: cassandra-node1
+    healthcheck:
+        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
+        interval: 5s
+        timeout: 5s
+        retries: 60
+    networks:
+      cassandra-net:
+        ipv4_address: 192.168.1.10
+    volumes:
+      - ./data/cassandra-node2:/var/lib/cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=my-cluster
+      - CASSANDRA_SEEDS=192.168.1.10
+      - CASSANDRA_BROADCAST_ADDRESS=192.168.1.10
+      - CASSANDRA_LISTEN_ADDRESS=192.168.1.10
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
