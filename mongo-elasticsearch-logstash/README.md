@@ -47,25 +47,25 @@ docker compose -f elasticsearch-kibana.yml up -d
 docker compose -f logstash.yml up -d
 ```
 
-> **Note:** Pipeline is self explanatory, if you read through the type data we have in the movie.json file, you will see the types of data coverted, and read each and every line of the pipeline to understand how that is write for different data types, and has respective comments for each type to explain better.
+> **Note:** Pipeline is self explanatory, if you read through the type data we have in the movie.json file, you will see the types of data covered, and read each and every line of the pipeline to understand how that is write for different data types, and has respective comments for each type to explain better.
 
 #### What is covered in the pipeline
 
-I am taking an example of the movies data for running the pipleine to cover the multiple type sof data moving from mongodb to elasticsearch. 
+I am taking an example of the movies data for running the pipeline to cover the multiple type sof data moving from mongodb to elasticsearch. 
 
-**Strings:** "title", "name", "role".
-**Numbers:** "rating", "releaseYear", "budget".
-**Boolean:** "isAvailable".
-**Dates:** "releaseDate".
-**Nested Objects:**
-  - "director" object contains details about the director.
-  - "profit" is nested within "boxOffice".
-**Arrays:**
-  - "genres" is an array of strings.
-  - "cast" is an array of objects.
-**Array of Objects:** "cast" contains objects with actor details ("name", "role", "age").
-**ObjectId:** _id is an ObjectId, representing MongoDB's unique identifier for each record.
-**Null Value:** "age" of the director in the second record is null to show handling missing data.
+- **Strings:** "title", "name", "role".
+- **Numbers:** "rating", "releaseYear", "budget".
+- **Boolean:** "isAvailable".
+- **Dates:** "releaseDate".
+- **Nested Objects:**
+    - "director" object contains details about the director.
+    - "profit" is nested within "boxOffice".
+- **Arrays:**
+    - "genres" is an array of strings.
+    - "cast" is an array of objects.
+- **Array of Objects:** "cast" contains objects with actor details ("name", "role", "age").
+- **ObjectId:** _id is an ObjectId, representing MongoDB's unique identifier for each record.
+- **Null Value:** "age" of the director in the second record is null to show handling missing data.
 
 
 #### Crean up:
