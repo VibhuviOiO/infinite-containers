@@ -1,0 +1,49 @@
+version: '3.9'
+services:
+  mongo1:
+    image: mongo:5.0.15
+    container_name: mongo1
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: devDB
+      TZ: "UTC"
+    volumes:
+      - mongo1-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      mongoCluster:
+    command: ["mongod", "--replSet", "mongoDevReplicaSet", "--bind_ip", "localhost,mongo1"]
+
+  mongo2:
+    image: mongo:5.0.15
+    container_name: mongo2
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: devDB
+      TZ: "UTC"
+    volumes:
+      - mongo2-data:/data/db
+    networks:
+      mongoCluster:
+    command: ["mongod", "--replSet", "mongoDevReplicaSet", "--bind_ip", "localhost,mongo2"]
+
+  mongo3:
+    image: mongo:5.0.15
+    container_name: mongo3
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: devDB
+      TZ: "UTC"
+    volumes:
+      - mongo3-data:/data/db
+    networks:
+      mongoCluster:
+    command: ["mongod", "--replSet", "mongoDevReplicaSet", "--bind_ip", "localhost,mongo3"]
+
+networks:
+  mongoCluster:
+volumes:
+  mongo1-data:
+  mongo2-data:
+  mongo3-data:

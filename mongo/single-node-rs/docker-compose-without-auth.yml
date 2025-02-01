@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  mongodb:
+    image : mongo:6
+    container_name: mongodb
+    hostname: mongodb
+    restart: on-failure
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MONGO_INITDB_DATABASE=mydatabase
+      - MONGO_REPLICA_SET_NAME=mongo-rs
+      - TZ="UTC"
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+    command: ["mongod", "--replSet", "mongo-rs", "--bind_ip", "localhost,mongo2"]
+    #command: "--bind_ip_all --replSet mongo-rs"
+volumes:
+  mongodb_data:

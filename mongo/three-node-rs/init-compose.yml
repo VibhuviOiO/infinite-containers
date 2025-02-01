@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  init-replica-set:
+    image: mongo:6
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongouser
+      MONGO_INITDB_ROOT_PASSWORD: mongopass
+    command: ["mongosh", "--quiet", "-u", "mongouser", "-p", "mongopass", "--eval", "rs.initiate({ _id: 'mongo-rs', members: [{ _id: 0, host: 'mongo1:27017' },{ _id: 1, host: 'mongo2:27017' },{ _id: 2, host: 'mongo3:27017' }] })"]
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+    networks:
+      - mongocluster
+networks:
+  mongocluster:
+    external: true

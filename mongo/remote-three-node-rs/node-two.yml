@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  mongo2:
+    image: mongo:6
+    container_name: mongo2
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MONGO_INITDB_ROOT_USERNAME=mongouser
+      - MONGO_INITDB_ROOT_PASSWORD=mongopass
+      - MONGO_INITDB_DATABASE=prod-db
+      - MONGO_REPLICA_SET_NAME=mongo-rs
+      - TZ="UTC"
+    volumes:
+      - mongo2-data:/data/db
+      # Use below line if you are running the container in linux machine
+      - /root/keyfile-linux/mongoKeyFileLinux:/opt/keyfile/mongoKeyFileLinux
+      # Use below line if you are running the container in linux machine
+      # - ../keyfile-mac/mongoKeyFileMac:/opt/keyfile/mongoKeyFileMac
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: |
+        test $$(mongosh --quiet -u mongouser -p mongopass --eval "rs.status().ok") -eq 1
+      interval: 10s
+      start_period: 30s
+    command: ["mongod", "--replSet", "mongo-rs", "--bind_ip", "0.0.0.0", "--auth",  "--keyFile", "/opt/keyfile/mongoKeyFileLinux"]
+volumes:
+  mongo-two-data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /var/database/mongo-two-data

@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  mongodb:
+    image : mongo:6
+    container_name: mongodb
+    hostname: mongodb
+    restart: on-failure
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MONGO_INITDB_ROOT_USERNAME=mongouser
+      - MONGO_INITDB_ROOT_PASSWORD=mongopass
+      - MONGO_INITDB_DATABASE=mydatabase
+      - MONGO_REPLICA_SET_NAME=mongo-rs
+      - TZ="UTC"
+    volumes:
+      - mongodb_data:/data/db
+      # Use below line if you are running the container in linux machine
+      # - ../keyfile-linux/mongoKeyFileLinux:/opt/keyfile/mongoKeyFileLinux
+      # Use below line if you are running the container in linux machine
+      - ../keyfile-mac/mongoKeyFileMac:/opt/keyfile/mongoKeyFileMac
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: |
+        test $$(mongosh --quiet -u mongouser -p mongopass --eval "try { rs.initiate({ _id: 'mongo-rs', members: [{ _id: 0, host: 'mongodb' }] }).ok } catch (_) { rs.status().ok }") -eq 1
+      interval: 10s
+      start_period: 30s
+    command: ["mongod", "--replSet", "mongo-rs", "--bind_ip", "localhost,mongodb",  "--keyFile", "/opt/keyfile/mongoKeyFileMac"]
+    #command: "--bind_ip_all --keyFile /opt/keyfile/keyfile --replSet mongo-rs"
+volumes:
+  mongodb_data:

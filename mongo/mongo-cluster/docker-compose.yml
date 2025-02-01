@@ -1,0 +1,75 @@
+version: "3.9"
+networks:
+  mongo_net:
+    driver: bridge
+services:
+  # Initialization Container
+  init_container:
+    image: mongo:6.0.7
+    container_name: init_container
+    command: >
+      sh -c "
+      sleep 10 && 
+      mongosh --host mongodb_config --port 27017 --eval 'rs.initiate({
+        _id: \"rs1\",
+        members: [
+          { _id: 0, host: \"mongodb_shared_server:27017\" }
+        ]
+      })' && 
+      sleep 5 && 
+      mongosh --host mongodb_router --port 27017 --eval 'sh.addShard(\"mongodb_shared_server/localhost:27017\")' && 
+      sleep 5"
+    depends_on:
+      - mongodb_router
+      - mongodb_config
+    networks:
+      - mongo_net
+  # Routers, entry points for client applications. They direct queries and data requests to the appropriate shard servers based on the data distribution.
+  mongodb_router:
+    image: mongo:6.0.7
+    container_name: mongodb_router
+    ports:
+      - 27017:27017
+    command: mongos --configdb "csvr/mongodb_config:27017" --bind_ip 0.0.0.0
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 10s
+      start_period: 30s
+    volumes:
+      - mongodb_router_data:/data/db
+      # - ./init.sh:/docker-entrypoint-initdb.d/init.sh
+    depends_on:
+      - mongodb_config
+      - mongodb_shared_server
+  # Shard Servers, are responsible for storing data. Data is distributed across multiple shard servers to provide horizontal scalability.
+  mongodb_shared_server:
+    image: mongo:6.0.7
+    container_name: mongodb_shared_server
+    command: mongod --shardsvr --replSet rs1
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "rs.status().ok"]
+      interval: 10s
+      start_period: 30s
+    volumes:
+      - mongodb_shared_server_data:/data/db
+    depends_on:
+      - mongodb_config
+    networks:
+      - mongo_net
+  # Config Servers, configurations about data distribution across shards and the cluster's structure
+  mongodb_config:
+    image: mongo:6.0.7
+    container_name: mongodb_config
+    command: mongod --configsvr --dbpath /data/db --replSet csvr
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "rs.status().ok"]
+      interval: 10s
+      start_period: 30s
+    volumes:
+      - mongodb_config_data:/data/db
+    networks:
+      - mongo_net
+volumes:
+  mongodb_config_data:
+  mongodb_shared_server_data:
+  mongodb_router_data:
