@@ -1,0 +1,26 @@
+networks:
+  datapipeline:
+    external: true
+services:
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    ports:
+      - 8081:8081
+    networks:
+      - datapipeline
+    # default user : admin, password: pass for mongo express
+  mongodb:
+    image: mongo:8.0.4
+    container_name: mongodb
+    hostname: mongodb
+    restart: on-failure
+    volumes:
+      - ./tmp/mongodb_data/db:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - datapipeline

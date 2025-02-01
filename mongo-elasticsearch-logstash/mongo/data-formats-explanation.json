@@ -1,0 +1,221 @@
+[
+  {
+    "_id": ObjectId("601d1b9e1c9d440000a5b6d1"),  // MongoDB ObjectId
+    "title": "Inception",
+    "releaseYear": 2010,
+    "rating": 8.8,  // Number
+    "isAvailable": true,  // Boolean
+    "genres": ["Sci-Fi", "Action", "Adventure"],  // Array of strings
+    "releaseDate": ISODate("2010-07-16"),  // Date
+    "director": {  // Nested object
+      "_id": ObjectId("601d1b9657890000a67ytgh6d1"),
+      "name": "Jandyala",
+      "age": 50,
+      "awardsWon": 11  // Number
+    },
+    "cast": [  // Array of objects
+      {
+        "name": "Leonardo DiCaprio",
+        "role": "Cobb",
+        "age": 35
+      },
+      {
+        "name": "Joseph Gordon-Levitt",
+        "role": "Arthur",
+        "age": 29
+      }
+    ],
+    "boxOffice": {  // Another nested object
+      "budget": 160000000,  // Number
+      "grossWorldwide": 829895144,
+      "profit": {  // Nested object inside another object
+        "domestic": 292576195,
+        "international": 537318949
+      }
+    }
+  },
+  {
+    "_id": ObjectId("601d1c9e1c9d440000a5b6d2"),  // MongoDB ObjectId
+    "title": "Baahubali: The Beginning",
+    "releaseYear": 2015,
+    "rating": 8.0,  // Number
+    "isAvailable": true,  // Boolean
+    "genres": ["Action", "Drama", "Fantasy"],  // Array of strings
+    "releaseDate": ISODate("2015-07-10"),  // Date
+    "director": {  // Nested object
+      "_id": ObjectId("601d1c9657890000a67ytgh6d2"),
+      "name": "S.S. Rajamouli",
+      "age": 47,
+      "awardsWon": 15  // Number
+    },
+    "cast": [  // Array of objects
+      {
+        "name": "Prabhas",
+        "role": "Baahubali/Shivudu",
+        "age": 36
+      },
+      {
+        "name": "Rana Daggubati",
+        "role": "Bhallaladeva",
+        "age": 30
+      },
+      {
+        "name": "Anushka Shetty",
+        "role": "Devasena",
+        "age": 34
+      },
+      {
+        "name": "Tamannaah Bhatia",
+        "role": "Avanthika",
+        "age": 25
+      },
+      {
+        "name": "Ramya Krishnan",
+        "role": "Sivagami",
+        "age": 45
+      }
+    ],
+    "boxOffice": {  // Another nested object
+      "budget": 1800000000,  // Budget in INR
+      "grossWorldwide": 6500000000,  // Gross in INR
+      "profit": {  // Nested object inside another object
+        "domestic": 3500000000,  // Domestic collection in INR
+        "international": 3000000000  // International collection in INR
+      }
+    }
+  },
+  {
+    "_id": ObjectId("601d1c9e1c9d440000a5b6d3"),  // MongoDB ObjectId
+    "title": "Ponniyin Selvan: Part I",
+    "releaseYear": 2022,
+    "rating": 8.2,  // Number
+    "isAvailable": true,  // Boolean
+    "genres": ["Action", "Drama", "Historical"],  // Array of strings
+    "releaseDate": ISODate("2022-09-30"),  // Date
+    "director": {  // Nested object
+      "_id": ObjectId("601d1c9657890000a67ytgh6d3"),
+      "name": "Mani Ratnam",
+      "age": 66,
+      "awardsWon": 20  // Number
+    },
+    "cast": [  // Array of objects
+      {
+        "name": "Vikram",
+        "role": "Aditha Karikalan",
+        "age": 56
+      },
+      {
+        "name": "Aishwarya Rai Bachchan",
+        "role": "Nandini",
+        "age": 48
+      },
+      {
+        "name": "Karthi",
+        "role": "Vanthiyathevan",
+        "age": 45
+      },
+      {
+        "name": "Trisha Krishnan",
+        "role": "Kundavai",
+        "age": 39
+      },
+      {
+        "name": "Jayam Ravi",
+        "role": "Arulmozhi Varman",
+        "age": 42
+      }
+    ],
+    "boxOffice": {  // Another nested object
+      "budget": 500000000,  // Budget in INR
+      "grossWorldwide": 5000000000,  // Gross in INR
+      "profit": {  // Nested object inside another object
+        "domestic": 2500000000,  // Domestic collection in INR
+        "international": 2500000000  // International collection in INR
+      }
+    }
+  },
+  {
+    "_id": ObjectId("601d1d9e1c9d440000a5b6d4"),  // MongoDB ObjectId
+    "title": "3 Idiots",
+    "releaseYear": 2009,
+    "rating": 8.4,  // Number
+    "isAvailable": true,  // Boolean
+    "genres": ["Comedy", "Drama"],  // Array of strings
+    "releaseDate": ISODate("2009-12-25"),  // Date
+    "director": {  // Nested object
+      "_id": ObjectId("601d1d9657890000a67ytgh6d4"),
+      "name": "Rajkumar Hirani",
+      "age": 61,
+      "awardsWon": 15  // Number
+    },
+    "cast": [  // Array of objects
+      {
+        "name": "Aamir Khan",
+        "role": "Rancho",
+        "age": 44
+      },
+      {
+        "name": "R. Madhavan",
+        "role": "Farhan Qureshi",
+        "age": 39
+      },
+      {
+        "name": "Sharman Joshi",
+        "role": "Raju Rastogi",
+        "age": 30
+      },
+      {
+        "name": "Boman Irani",
+        "role": "Dr. Viru Sahastrabuddhe (Virus)",
+        "age": 50
+      },
+      {
+        "name": "Kareena Kapoor",
+        "role": "Pia Sahastrabuddhe",
+        "age": 29
+      }
+    ],
+    "boxOffice": {  // Another nested object
+      "budget": 350000000,  // Budget in INR
+      "grossWorldwide": 4500000000,  // Gross in INR
+      "profit": {  // Nested object inside another object
+        "domestic": 2020000000,  // Domestic collection in INR
+        "international": 2480000000  // International collection in INR
+      }
+    }
+  },    
+  {
+    "_id": ObjectId("601d1b9e1c9d440000a5b6d2"),
+    "title": "The Matrix",
+    "releaseYear": 1999,
+    "rating": 8.7,
+    "isAvailable": true,
+    "genres": ["Sci-Fi", "Action"],
+    "releaseDate": ISODate("1999-03-31"),
+    "director": {
+      "name": "The Wachowskis",
+      "age": null,  // Example for null
+      "awardsWon": 5
+    },
+    "cast": [
+      {
+        "name": "Keanu Reeves",
+        "role": "Neo",
+        "age": 35
+      },
+      {
+        "name": "Laurence Fishburne",
+        "role": "Morpheus",
+        "age": 37
+      }
+    ],
+    "boxOffice": {
+      "budget": 63000000,
+      "grossWorldwide": 467222728,
+      "profit": {
+        "domestic": 171479930,
+        "international": 295742798
+      }
+    }
+  }
+]

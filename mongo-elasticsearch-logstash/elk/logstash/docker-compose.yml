@@ -1,0 +1,20 @@
+networks:
+  datapipeline:
+    external: true
+services:
+  logstash:
+    image: mongologstash
+    container_name: logstash
+    environment:
+      - xpack.monitoring.enabled=false
+      - LOG_LEVEL=error
+      - PIPELINE_WORKERS=1
+      - MONITORING_ENABLED=false
+      - JAVA_TOOL_OPTIONS="-Dpolyglot.engine.WarnInterpreterOnly=false"
+    networks: ["datapipeline"]
+    ports:
+      - 9600:9600
+    volumes:
+      - ../tmp/swagup-data/logstash-data:/opt/logstash-data/
+      - ./pipeline/pipeline.conf:/usr/share/logstash/pipeline/pipeline.conf
+      - ../tmp/swagup-data/elk-certs:/usr/share/logstash/config/certs

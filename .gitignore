@@ -6,7 +6,7 @@ marqo_cache
 memos_data
 docker_registry
 data
-
+tmp
 # DRAFTS
 zeppelin
 openldap

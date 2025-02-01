@@ -1,0 +1,270 @@
+[
+    {
+        "_id": {
+            "$oid": "67993a8d5d9e8778fb21ff03"
+        },
+        "title": "Inception",
+        "releaseYear": 2010,
+        "rating": 8.8,
+        "isAvailable": true,
+        "genres": [
+            "Sci-Fi",
+            "Action",
+            "Adventure"
+        ],
+        "releaseDate": {
+            "$date": "2010-07-16T00:00:00Z"
+        },
+        "director": {
+            "_id": {
+                "$oid": "67993a8d5d9e8778fb21ff04"
+            },
+            "name": "Jandyala",
+            "age": 50,
+            "awardsWon": 11
+        },
+        "cast": [
+            {
+                "name": "Leonardo DiCaprio",
+                "role": "Cobb",
+                "age": 35
+            },
+            {
+                "name": "Joseph Gordon-Levitt",
+                "role": "Arthur",
+                "age": 29
+            }
+        ],
+        "boxOffice": {
+            "budget": 160000000,
+            "grossWorldwide": 829895144,
+            "profit": {
+                "domestic": 292576195,
+                "international": 537318949
+            }
+        }
+    },
+    {
+        "_id": {
+            "$oid": "67993aa95d9e8778fb21ff07"
+        },
+        "title": "Baahubali: The Beginning",
+        "releaseYear": 2015,
+        "rating": 8,
+        "isAvailable": true,
+        "genres": [
+            "Action",
+            "Drama",
+            "Fantasy"
+        ],
+        "releaseDate": {
+            "$date": "2015-07-10T00:00:00Z"
+        },
+        "director": {
+            "_id": {
+                "$oid": "67993aa95d9e8778fb21ff08"
+            },
+            "name": "S.S. Rajamouli",
+            "age": 47,
+            "awardsWon": 15
+        },
+        "cast": [
+            {
+                "name": "Prabhas",
+                "role": "Baahubali/Shivudu",
+                "age": 36
+            },
+            {
+                "name": "Rana Daggubati",
+                "role": "Bhallaladeva",
+                "age": 30
+            },
+            {
+                "name": "Anushka Shetty",
+                "role": "Devasena",
+                "age": 34
+            },
+            {
+                "name": "Tamannaah Bhatia",
+                "role": "Avanthika",
+                "age": 25
+            },
+            {
+                "name": "Ramya Krishnan",
+                "role": "Sivagami",
+                "age": 45
+            }
+        ],
+        "boxOffice": {
+            "budget": 1800000000,
+            "grossWorldwide": 6.5E+09,
+            "profit": {
+                "domestic": 3.5E+09,
+                "international": 3E+09
+            }
+        }
+    },
+    {
+        "_id": {
+            "$oid": "67993acf5d9e8778fb21ff0b"
+        },
+        "title": "Ponniyin Selvan: Part I",
+        "releaseYear": 2022,
+        "rating": 8.2,
+        "isAvailable": true,
+        "genres": [
+            "Action",
+            "Drama",
+            "Historical"
+        ],
+        "releaseDate": {
+            "$date": "2022-09-30T00:00:00Z"
+        },
+        "director": {
+            "_id": {
+                "$oid": "67993acf5d9e8778fb21ff0c"
+            },
+            "name": "Mani Ratnam",
+            "age": 66,
+            "awardsWon": 20
+        },
+        "cast": [
+            {
+                "name": "Vikram",
+                "role": "Aditha Karikalan",
+                "age": 56
+            },
+            {
+                "name": "Aishwarya Rai Bachchan",
+                "role": "Nandini",
+                "age": 48
+            },
+            {
+                "name": "Karthi",
+                "role": "Vanthiyathevan",
+                "age": 45
+            },
+            {
+                "name": "Trisha Krishnan",
+                "role": "Kundavai",
+                "age": 39
+            },
+            {
+                "name": "Jayam Ravi",
+                "role": "Arulmozhi Varman",
+                "age": 42
+            }
+        ],
+        "boxOffice": {
+            "budget": 500000000,
+            "grossWorldwide": 5E+09,
+            "profit": {
+                "domestic": 2.5E+09,
+                "international": 2.5E+09
+            }
+        }
+    },
+    {
+        "_id": {
+            "$oid": "67993ae75d9e8778fb21ff0f"
+        },
+        "title": "3 Idiots",
+        "releaseYear": 2009,
+        "rating": 8.4,
+        "isAvailable": true,
+        "genres": [
+            "Comedy",
+            "Drama"
+        ],
+        "releaseDate": {
+            "$date": "2009-12-25T00:00:00Z"
+        },
+        "director": {
+            "_id": {
+                "$oid": "67993ae75d9e8778fb21ff10"
+            },
+            "name": "Rajkumar Hirani",
+            "age": 61,
+            "awardsWon": 15
+        },
+        "cast": [
+            {
+                "name": "Aamir Khan",
+                "role": "Rancho",
+                "age": 44
+            },
+            {
+                "name": "R. Madhavan",
+                "role": "Farhan Qureshi",
+                "age": 39
+            },
+            {
+                "name": "Sharman Joshi",
+                "role": "Raju Rastogi",
+                "age": 30
+            },
+            {
+                "name": "Boman Irani",
+                "role": "Dr. Viru Sahastrabuddhe (Virus)",
+                "age": 50
+            },
+            {
+                "name": "Kareena Kapoor",
+                "role": "Pia Sahastrabuddhe",
+                "age": 29
+            }
+        ],
+        "boxOffice": {
+            "budget": 350000000,
+            "grossWorldwide": 4.5E+09,
+            "profit": {
+                "domestic": 2020000000,
+                "international": 2.48E+09
+            }
+        }
+    },
+    {
+        "_id": {
+            "$oid": "67993b015d9e8778fb21ff13"
+        },
+        "title": "The Matrix",
+        "releaseYear": 1999,
+        "rating": 8.7,
+        "isAvailable": true,
+        "genres": [
+            "Sci-Fi",
+            "Action"
+        ],
+        "releaseDate": {
+            "$date": "1999-03-31T00:00:00Z"
+        },
+        "director": {
+            "_id": {
+                "$oid": "67993b015d9e8778fb21ff14"
+            },
+            "name": "The Wachowskis",
+            "age": null,
+            "awardsWon": 5
+        },
+        "cast": [
+            {
+                "name": "Keanu Reeves",
+                "role": "Neo",
+                "age": 35
+            },
+            {
+                "name": "Laurence Fishburne",
+                "role": "Morpheus",
+                "age": 37
+            }
+        ],
+        "boxOffice": {
+            "budget": 63000000,
+            "grossWorldwide": 467222728,
+            "profit": {
+                "domestic": 171479930,
+                "international": 295742798
+            }
+        }
+    }
+]
