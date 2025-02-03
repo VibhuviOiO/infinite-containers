@@ -1,13 +1,11 @@
-version: '3.3'
 services:
   elasticsearch-one:
-    container_name: vbvelasticsearch-one
     image: docker.elastic.co/elasticsearch/elasticsearch:8.17.1
+    container_name: oio-elasticsearch-one
     environment:
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
-      # When the machine has 16GB, Xms & Xmx is set to TOTAL_RAM/2
-      - cluster.name=vbv-cluster
-      - node.name="vbves-one"
+      - cluster.name=oio-cluster
+      - node.name="oio-es-one"
       - network.publish_host=192.168.0.26
       - network.bind_host=0.0.0.0
       - discovery.zen.ping.unicast.hosts=192.168.0.26,192.168.0.27,192.168.0.28
@@ -22,8 +20,7 @@ services:
     volumes:
       - esdata-one:/usr/share/elasticsearch/data
       - es-logs-one:/usr/share/elasticsearch/logs
-      - ./elasticsearch-one-config.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+      # - ./log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
     ports:
       - 9200:9200
       - 9300:9300
@@ -36,8 +33,4 @@ services:
 
 volumes:
   esdata-one:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: /var/enc/db/elasticsearch1/data
+  es-logs-one:

@@ -1,12 +1,11 @@
-version: '3.3'
 services:
   elasticsearch-three:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.17.1
-    container_name: ws-elasticsearch-three
+    container_name: oio-elasticsearch-three
     environment:
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
-      - cluster.name=vbv-cluster
-      - node.name="ws-es-three"
+      - cluster.name=oio-cluster
+      - node.name="oio-es--three"
       - network.publish_host=192.168.0.28
       - network.bind_host=0.0.0.0
       - discovery.zen.ping.unicast.hosts=192.168.0.26,192.168.0.27,192.168.0.28
@@ -19,8 +18,8 @@ services:
       - search.max_buckets=1000
       - indices.breaker.request.limit=40%
     volumes:
-      - ./logging.yml:/usr/share/elasticsearch/config/logging.yml
       - esdata-three:/usr/share/elasticsearch/data
+      - es-logs-three:/usr/share/elasticsearch/logs
     ports:
       - 9200:9200
       - 9300:9300
@@ -28,8 +27,4 @@ services:
 
 volumes:
   esdata-three:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: /var/enc/db/elasticsearch3/data
+  es-logs-three:
