@@ -1,15 +1,15 @@
 version: '3.3'
 services:
   elasticsearch-three:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.4.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.1
     container_name: ws-elasticsearch-three
     environment:
-      - "ES_JAVA_OPTS=-Xms8g -Xmx8g"
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
       - cluster.name=vbv-cluster
       - node.name="ws-es-three"
-      - network.publish_host=10.10.10.66
+      - network.publish_host=192.168.0.28
       - network.bind_host=0.0.0.0
-      - discovery.zen.ping.unicast.hosts=10.10.10.66,10.10.10.66,10.10.10.66
+      - discovery.zen.ping.unicast.hosts=192.168.0.26,192.168.0.27,192.168.0.28
       - node.master=true
       - discovery.zen.minimum_master_nodes=2
       - xpack.security.enabled=false
