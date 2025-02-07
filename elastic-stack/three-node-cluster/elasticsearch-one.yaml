@@ -6,9 +6,9 @@ services:
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
       - cluster.name=oio-cluster
       - node.name="oio-es-one"
-      - network.publish_host=192.168.0.26
+      - network.publish_host=192.168.0.11
       - network.bind_host=0.0.0.0
-      - discovery.zen.ping.unicast.hosts=192.168.0.26,192.168.0.27,192.168.0.28
+      - discovery.zen.ping.unicast.hosts=192.168.0.11,192.168.0.27,192.168.0.28
       - node.master=true
       - discovery.zen.minimum_master_nodes=2
       - xpack.security.enabled=false
