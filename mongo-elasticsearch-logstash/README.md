@@ -40,6 +40,13 @@ docker compose -f elasticsearch-kibana.yml up -d
 #### Run logstash
 - Create the custom logstash docker image with mongo drivers, we can configure everything docker-compose but, for every restart it has to do the same activity which is time consuming, I prefer creating the custom docker image.
     - Download the mongo drivers from [Open-Source MongoDb JDBC Driver](https://dbschema.com/jdbc-driver/mongodb.html#DbSchema) and extract to `drivers` folder. `wget ` 
+    ```bash
+    cd mongo-elasticsearch-logstash/elk/logstash/
+    mkdir drivers
+    wget https://dbschema.com/jdbc-drivers/MongoDbJdbcDriver.zip
+    unzip MongoDbJdbcDriver.zip -d drivers/
+    rm -rf MongoDbJdbcDriver.zip
+    ```
     - Create the docker image `docker build -t mongologstash .`
 - Create the pipeline configuration. 
 - Run the logstash container
