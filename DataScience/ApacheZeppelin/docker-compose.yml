@@ -1,0 +1,18 @@
+services:
+  zeppelin:
+    image: apache/zeppelin:0.12.0
+    container_name: zeppelin
+    user: "${UID}:${GID}"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./tmp/notebook:/notebook
+      - ./tmp/spark:/opt/spark
+      - ./tmp/flink:/opt/flink
+      - ./tmp/logs:/logs
+    environment:
+      - ZEPPELIN_LOG_DIR=/logs
+      - ZEPPELIN_NOTEBOOK_DIR=/notebook
+      - FLINK_HOME=/opt/flink
+      - SPARK_HOME=/opt/spark
+    restart: unless-stopped
