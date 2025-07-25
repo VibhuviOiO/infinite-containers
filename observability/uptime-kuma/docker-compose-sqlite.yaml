@@ -1,0 +1,16 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:nightly2
+    container_name: uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - ./tmp/uptime-kuma:/app/data
+    ports:
+      - "3001:3001"
+volumes:
+  uptime-kuma:
+    # driver: local
+    # driver_opts:
+    #   o: bind
+    #   type: none
+    #   device: /data/uptime/data
