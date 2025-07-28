@@ -22,7 +22,7 @@ services:
       MYSQL_USER: kuma_user
       MYSQL_PASSWORD: kumapass
     volumes:
-    - mariadb_data:/var/lib/mysql
+    - ./tmp/mariadb/data:/var/lib/mysql
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "kuma_user", "-p=kumapass" ]
       interval: 10s
@@ -43,10 +43,3 @@ services:
       - UPTIME_KUMA_DB_PASSWORD=kumapass
     ports:
       - "3001:3001"
-volumes:
-  mariadb_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: /data/uptime/mariadb-data

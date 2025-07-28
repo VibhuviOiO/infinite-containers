@@ -7,10 +7,3 @@ services:
       - ./tmp/uptime-kuma:/app/data
     ports:
       - "3001:3001"
-volumes:
-  uptime-kuma:
-    # driver: local
-    # driver_opts:
-    #   o: bind
-    #   type: none
-    #   device: /data/uptime/data
