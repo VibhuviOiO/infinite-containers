@@ -1,0 +1,52 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:nightly2
+    container_name: uptime-kuma
+    restart: unless-stopped
+    cap_add:
+    - NET_RAW
+    environment:
+    - UPTIME_KUMA_DB_TYPE=mariadb
+    - UPTIME_KUMA_DB_HOSTNAME=kuma-mariadb
+    - UPTIME_KUMA_DB_PORT=3306
+    - UPTIME_KUMA_DB_NAME=kuma_db
+    - UPTIME_KUMA_DB_USERNAME=kuma_user
+    - UPTIME_KUMA_DB_PASSWORD=kumapass
+    ports:
+    - "3001:3001"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+    - "8080:80"
+    environment:
+      PMA_HOST: kuma-mariadb
+      PMA_USER: kuma_user
+      PMA_PASSWORD: kumapass
+    depends_on:
+    - mariadb
+  mariadb:
+    image: mariadb:12.0-ubi9-rc
+    container_name: kuma-mariadb
+    restart: unless-stopped
+    ports: [ "3306:3306" ]
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: kuma_db
+      MYSQL_USER: kuma_user
+      MYSQL_PASSWORD: kumapass
+    volumes:
+    - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "kuma_user", "-p=kumapass" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  mariadb_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /data/uptime/mariadb-data
