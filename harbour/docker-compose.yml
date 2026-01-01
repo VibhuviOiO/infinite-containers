@@ -1,0 +1,10 @@
+services:
+  registry:
+    image: goharbor/harbor-registry:v2.6.1
+    environment:
+      - REGISTRY_STORAGE=filesystem
+      - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/data
+    volumes:
+      - ./registry-data:/data
+    ports:
+      - "5000:5000"
