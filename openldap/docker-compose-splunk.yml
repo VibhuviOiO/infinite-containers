@@ -1,0 +1,36 @@
+services:
+  openldap:
+    image: ghcr.io/vibhuvioio/openldap:latest
+    container_name: openldap-vibhuvioio
+    hostname: openldap-vibhuvioio
+    env_file:
+      - .env.vibhuvioio
+    ports:
+      - "389:389"
+    volumes:
+      - ldap-data:/var/lib/ldap
+      - ldap-config:/etc/openldap/slapd.d
+    restart: unless-stopped
+    networks:
+      - ldap-net
+
+  splunk:
+    image: splunk/splunk:9.2
+    container_name: splunk
+    hostname: splunk
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_PASSWORD: Changeme123!
+    ports:
+      - "8001:8000"
+    restart: unless-stopped
+    networks:
+      - ldap-net
+
+volumes:
+  ldap-data:
+  ldap-config:
+
+networks:
+  ldap-net:
+    driver: bridge

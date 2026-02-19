@@ -1,0 +1,63 @@
+services:
+  openldap-node1:
+    image: ghcr.io/vibhuvioio/openldap:latest
+    container_name: openldap-node1
+    hostname: openldap-node1
+    env_file:
+      - .env.node1
+    ports:
+      - "389:389"
+      - "636:636"
+    volumes:
+      - ldap-data-node1:/var/lib/ldap
+      - ldap-config-node1:/etc/openldap/slapd.d
+      - ./logs/node1:/logs
+    restart: unless-stopped
+    networks:
+      - ldap-network
+
+  openldap-node2:
+    image: ghcr.io/vibhuvioio/openldap:latest
+    container_name: openldap-node2
+    hostname: openldap-node2
+    env_file:
+      - .env.node2
+    ports:
+      - "390:389"
+      - "640:636"
+    volumes:
+      - ldap-data-node2:/var/lib/ldap
+      - ldap-config-node2:/etc/openldap/slapd.d
+      - ./logs/node2:/logs
+    restart: unless-stopped
+    networks:
+      - ldap-network
+
+  openldap-node3:
+    image: ghcr.io/vibhuvioio/openldap:latest
+    container_name: openldap-node3
+    hostname: openldap-node3
+    env_file:
+      - .env.node3
+    ports:
+      - "391:389"
+      - "641:636"
+    volumes:
+      - ldap-data-node3:/var/lib/ldap
+      - ldap-config-node3:/etc/openldap/slapd.d
+      - ./logs/node3:/logs
+    restart: unless-stopped
+    networks:
+      - ldap-network
+
+volumes:
+  ldap-data-node1:
+  ldap-config-node1:
+  ldap-data-node2:
+  ldap-config-node2:
+  ldap-data-node3:
+  ldap-config-node3:
+
+networks:
+  ldap-network:
+    driver: bridge

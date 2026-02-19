@@ -1,0 +1,39 @@
+services:
+  openldap:
+    image: ghcr.io/vibhuvioio/openldap:latest
+    container_name: openldap-vibhuvioio
+    hostname: openldap-vibhuvioio
+    env_file:
+      - .env.vibhuvioio
+    ports:
+      - "389:389"
+      - "636:636"
+    volumes:
+      - ldap-data:/var/lib/ldap
+      - ldap-config:/etc/openldap/slapd.d
+      - ./logs:/logs
+    restart: unless-stopped
+    networks:
+      - ldap-shared-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    container_name: keycloak
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - openldap
+    networks:
+      - ldap-shared-network
+
+volumes:
+  ldap-data:
+  ldap-config:
+
+networks:
+  ldap-shared-network:
+    driver: bridge
