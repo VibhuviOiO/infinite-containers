@@ -1,0 +1,38 @@
+services:
+  openldap:
+    image: ghcr.io/vibhuvioio/openldap:latest
+    container_name: openldap-vibhuvioio
+    hostname: openldap-vibhuvioio
+    env_file:
+      - .env.vibhuvioio
+    ports:
+      - "389:389"
+    volumes:
+      - ldap-data:/var/lib/ldap
+      - ldap-config:/etc/openldap/slapd.d
+      - ./logs:/logs
+    restart: unless-stopped
+    networks:
+      - ldap-net
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    depends_on:
+      - openldap
+    ports:
+      - "8080:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    restart: unless-stopped
+    networks:
+      - ldap-net
+
+volumes:
+  ldap-data:
+  ldap-config:
+  jenkins_home:
+
+networks:
+  ldap-net:
+    driver: bridge

@@ -1,0 +1,70 @@
+services:
+  openldap:
+    image: ghcr.io/vibhuvioio/openldap:latest
+    container_name: openldap-vibhuvioio
+    hostname: openldap-vibhuvioio
+    env_file:
+      - .env.vibhuvioio
+    ports:
+      - "389:389"
+    volumes:
+      - ldap-data:/var/lib/ldap
+      - ldap-config:/etc/openldap/slapd.d
+      - ./logs:/logs
+    restart: unless-stopped
+    networks:
+      - ldap-net
+
+  postgres:
+    image: postgres:15
+    container_name: sonarqube-db
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonar
+    volumes:
+      - sonar-db:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - ldap-net
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    depends_on:
+      - postgres
+      - openldap
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://postgres:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+      SONAR_SECURITY_REALM: LDAP
+      LDAP_URL: ldap://openldap-vibhuvioio:389
+      LDAP_BINDDN: uid=sonarbind,ou=People,dc=vibhuvioio,dc=com
+      LDAP_BINDPASSWORD: bindpassword
+      LDAP_USER_BASEDN: ou=People,dc=vibhuvioio,dc=com
+      LDAP_USER_REQUEST: (&(objectClass=inetOrgPerson)(uid={login}))
+      LDAP_GROUP_BASEDN: ou=Groups,dc=vibhuvioio,dc=com
+      LDAP_GROUP_REQUEST: (&(objectClass=groupOfNames)(member={dn}))
+      LDAP_GROUP_IDATTRIBUTE: cn
+    volumes:
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-extensions:/opt/sonarqube/extensions
+      - sonarqube-logs:/opt/sonarqube/logs
+    restart: unless-stopped
+    networks:
+      - ldap-net
+
+volumes:
+  ldap-data:
+  ldap-config:
+  sonar-db:
+  sonarqube-data:
+  sonarqube-extensions:
+  sonarqube-logs:
+
+networks:
+  ldap-net:
+    driver: bridge
