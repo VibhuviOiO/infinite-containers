@@ -1,0 +1,27 @@
+services:
+  openldap:
+    image: ghcr.io/vibhuvioio/openldap:latest
+    container_name: openldap
+    environment:
+      - LDAP_DOMAIN=example.com
+      - LDAP_ADMIN_PASSWORD=changeme
+      - ENABLE_MONITORING=true
+    ports:
+      - "389:389"
+      - "636:636"
+    volumes:
+      - ldap-data:/var/lib/ldap
+      - ldap-config:/etc/openldap/slapd.d
+      - ldap-logs:/logs
+    healthcheck:
+      test: ["/usr/local/bin/scripts/healthcheck.sh", "basic"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  ldap-data:
+  ldap-config:
+  ldap-logs:
