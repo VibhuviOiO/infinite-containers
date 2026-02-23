@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
@@ -14,7 +13,6 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - network.host=0.0.0.0
       - transport.host=0.0.0.0
-      # - discovery.zen.minimum_master_nodes=1
       - node.name=algo-es-node
       - cluster.name=${CLUSTER_NAME}
       - discovery.type=single-node
@@ -31,30 +29,7 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120
-
-  kibana:
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
-    container_name: kibana
-    volumes:
-      - kibanadata:/usr/share/kibana/data
-    env_file:
-      - .env
-    ports:
-      - ${KIBANA_PORT}:5601
-    environment:
-      - SERVERNAME=kibana
-      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
-    mem_limit: ${MEM_LIMIT}
-    healthcheck:
-      test: ["CMD-SHELL", "curl -s -I http://localhost:5601 >/dev/null || exit 1"]
-      interval: 10s
-      timeout: 10s
-      retries: 120
 volumes:
-  kibanadata:
   esdata:
 #     driver: local
 #     driver_opts:
