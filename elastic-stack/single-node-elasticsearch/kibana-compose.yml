@@ -1,0 +1,21 @@
+services:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    container_name: kibana
+    volumes:
+      - kibanadata:/usr/share/kibana/data
+    env_file:
+      - .env
+    ports:
+      - ${KIBANA_PORT}:5601
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+    mem_limit: ${MEM_LIMIT}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -I http://localhost:5601 >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+volumes:
+  kibanadata:
