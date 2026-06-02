@@ -10,6 +10,9 @@ Various docker-compose files I use on dev or production
 - [Qdrant](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/qdrant/docker-compose.yml) - Vector database and vector search engine
 - [ChromaDB](https://github.com/JinnaBalu/infinite-docker-compose/blob/main/chromadb/docker-compose.yml) - Vector embeddings database
 
+#### LLM Engineering Platform
+- [Langfuse Developer Quickstart](https://github.com/JinnaBalu/infinite-docker-compose/tree/main/langfuse) 
+
 #### Hacking Tools 
 
 - [kasam]()
