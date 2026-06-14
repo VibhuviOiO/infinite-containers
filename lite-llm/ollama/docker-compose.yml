@@ -1,0 +1,80 @@
+name: lite-llm-ollama
+
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    container_name: lite-llm-ollama-proxy
+    env_file:
+      - .env
+    command: ["--config", "/app/config.yaml", "--host", "0.0.0.0", "--port", "4000"]
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-litellm}:${POSTGRES_PASSWORD:-litellm_password}@postgres:5432/${POSTGRES_DB:-litellm}
+      OLLAMA_API_BASE: http://ollama:11434
+    ports:
+      - "${LITELLM_PORT:-4001}:4000"
+    volumes:
+      - ./litellm_config.yaml:/app/config.yaml:ro
+    depends_on:
+      ollama-pull-primary:
+        condition: service_completed_successfully
+      ollama-pull-secondary:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: lite-llm-ollama-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-litellm}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-litellm_password}
+      POSTGRES_DB: ${POSTGRES_DB:-litellm}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-litellm} -d ${POSTGRES_DB:-litellm}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: lite-llm-ollama
+    ports:
+      - "${OLLAMA_PORT:-11435}:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  ollama-pull-primary:
+    image: ollama/ollama:latest
+    container_name: lite-llm-ollama-pull-primary
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    command: ["pull", "${OLLAMA_MODEL_PRIMARY:-qwen2.5:0.5b}"]
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: "no"
+
+  ollama-pull-secondary:
+    image: ollama/ollama:latest
+    container_name: lite-llm-ollama-pull-secondary
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    command: ["pull", "${OLLAMA_MODEL_SECONDARY:-smollm2:135m}"]
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: "no"
+
+volumes:
+  ollama_data:
+  postgres_data:

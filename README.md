@@ -12,7 +12,7 @@ Various docker-compose files I use on dev or production
 
 #### LLM Engineering Platform
 - [Langfuse Developer Quickstart](https://github.com/JinnaBalu/infinite-docker-compose/tree/main/langfuse) 
-
+- [AI Gateway - LiteLLM]()
 #### Hacking Tools 
 
 - [kasam]()

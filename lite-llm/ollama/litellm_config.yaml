@@ -1,0 +1,36 @@
+model_list:
+  - model_name: local-free-chat
+    litellm_params:
+      model: ollama_chat/qwen2.5:0.5b
+      api_base: os.environ/OLLAMA_API_BASE
+
+  - model_name: local-tiny-chat
+    litellm_params:
+      model: ollama_chat/smollm2:135m
+      api_base: os.environ/OLLAMA_API_BASE
+
+  - model_name: local-dummy-chat
+    litellm_params:
+      model: ollama_chat/not-a-real-model
+      api_base: os.environ/OLLAMA_API_BASE
+
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: ollama_chat/qwen2.5:0.5b
+      api_base: os.environ/OLLAMA_API_BASE
+
+router_settings:
+  routing_strategy: simple-shuffle
+  num_retries: 0
+  timeout: 30
+  fallbacks:
+    - local-dummy-chat: [local-free-chat, local-tiny-chat]
+    - gpt-4o-mini: [local-free-chat, local-tiny-chat]
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL
+  telemetry: false
+
+litellm_settings:
+  set_verbose: true

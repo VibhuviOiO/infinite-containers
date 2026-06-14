@@ -1,0 +1,35 @@
+model_list:
+  - model_name: text-embedding-3-large
+    litellm_params:
+      model: bedrock/amazon.titan-embed-text-v2:0
+      aws_region_name: os.environ/AWS_REGION_NAME
+
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: bedrock/amazon.nova-micro-v1:0
+      aws_region_name: os.environ/AWS_REGION_NAME
+
+router_settings:
+  routing_strategy: simple-shuffle
+  num_retries: 2
+  timeout: 30
+  # Add a real fallback partner per alias once your team approves a second Bedrock
+  # model (e.g., Claude Haiku for chat, Cohere Embed for embeddings). Self-referential
+  # fallbacks like `gpt-4o-mini: [gpt-4o-mini]` are no-ops and have been removed.
+  # Example shape:
+  # fallbacks:
+  #   - gpt-4o-mini: [bedrock-claude-haiku]
+  #   - text-embedding-3-large: [bedrock-cohere-embed]
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL
+  telemetry: false
+
+litellm_settings:
+  set_verbose: false
+  cache: true
+  cache_params:
+    type: redis
+    host: os.environ/REDIS_HOST
+    port: os.environ/REDIS_PORT
