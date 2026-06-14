@@ -1,0 +1,22 @@
+model_list:
+  - model_name: text-embedding-3-large
+    litellm_params:
+      model: bedrock/amazon.titan-embed-text-v2:0
+      aws_region_name: os.environ/AWS_REGION_NAME
+
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: bedrock/amazon.nova-micro-v1:0
+      aws_region_name: os.environ/AWS_REGION_NAME
+
+router_settings:
+  routing_strategy: simple-shuffle
+  num_retries: 1
+  timeout: 30
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  telemetry: false
+
+litellm_settings:
+  set_verbose: true

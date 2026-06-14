@@ -1,0 +1,19 @@
+name: lite-llm-dev-bedrock
+
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    container_name: lite-llm-dev-bedrock
+    env_file:
+      - .env
+    command: ["--config", "/app/config.yaml", "--host", "0.0.0.0", "--port", "4000"]
+    environment:
+      AWS_REGION_NAME: ${AWS_REGION_NAME:-us-east-1}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      AWS_PROFILE: ${AWS_PROFILE:-default}
+    ports:
+      - "${LITELLM_PORT:-4002}:4000"
+    volumes:
+      - ~/.aws:/root/.aws:ro
+      - ./litellm_config.yaml:/app/config.yaml:ro
+    restart: unless-stopped

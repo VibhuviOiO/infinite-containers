@@ -1,0 +1,47 @@
+model_list:
+  - model_name: free-chat
+    litellm_params:
+      model: gemini/gemini-2.5-flash
+      api_key: os.environ/GEMINI_API_KEY
+
+  - model_name: free-chat-groq
+    litellm_params:
+      model: groq/llama-3.3-70b-versatile
+      api_key: os.environ/GROQ_API_KEY
+
+  - model_name: free-chat-openrouter
+    litellm_params:
+      model: openrouter/openai/gpt-oss-20b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  - model_name: free-chat-cloudflare
+    litellm_params:
+      model: cloudflare/@cf/meta/llama-3.3-70b-instruct-fp8-fast
+      api_key: os.environ/CLOUDFLARE_API_TOKEN
+      account_id: os.environ/CLOUDFLARE_ACCOUNT_ID
+
+  - model_name: free-chat-huggingface
+    litellm_params:
+      model: huggingface/Qwen/Qwen2.5-7B-Instruct
+      api_key: os.environ/HUGGINGFACE_API_KEY
+
+  - model_name: free-dummy-chat
+    litellm_params:
+      model: gemini/not-a-real-model
+      api_key: os.environ/GEMINI_API_KEY
+
+router_settings:
+  routing_strategy: simple-shuffle
+  num_retries: 1
+  timeout: 60
+  fallbacks:
+    - free-chat: [free-chat-groq, free-chat-openrouter, free-chat-cloudflare, free-chat-huggingface]
+    - free-dummy-chat: [free-chat, free-chat-groq, free-chat-openrouter, free-chat-cloudflare, free-chat-huggingface]
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL
+  telemetry: false
+
+litellm_settings:
+  set_verbose: true

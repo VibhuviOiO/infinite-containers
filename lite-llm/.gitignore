@@ -1,0 +1,9 @@
+.env
+dev-bedrock/.env
+ollama/.env
+prod-bedrock/.env
+free-models-gateway/.env
+__pycache__/
+.DS_Store
+
+docs/
