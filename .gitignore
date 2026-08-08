@@ -21,3 +21,4 @@ zeppelin
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 .DS_Store
+logs/
