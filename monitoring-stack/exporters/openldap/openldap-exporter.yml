@@ -1,0 +1,34 @@
+# Exporter config for the lab. ${VAR} is expanded from the environment at load
+# time, and the environment comes from .env.vibhuvioio (env_file below), so no
+# password is written here.
+
+listen: ":9330"
+metrics_path: /metrics
+scrape_timeout: 10s
+
+defaults:
+  bind_dn: cn=Manager,dc=example,dc=com
+  password: ${LDAP_ADMIN_PASSWORD}
+
+  # cn=config access adds the syncrepl topology, serverID, keepalive/retry and
+  # olcReadOnly metrics. In this image the config database's bind DN is
+  # `cn=config`, NOT `cn=admin,cn=config` - verified by binding both.
+  config_bind_dn: cn=config
+  config_password: ${LDAP_CONFIG_PASSWORD}
+
+targets:
+  - name: openldap
+    uri: ldap://openldap:389
+    group: lab
+    role: provider
+
+suffixes:
+  - dc=example,dc=com
+
+entries:
+  - name: all
+    base: dc=example,dc=com
+    filter: (objectClass=*)
+  - name: people
+    base: ou=People,dc=example,dc=com
+    filter: (objectClass=inetOrgPerson)

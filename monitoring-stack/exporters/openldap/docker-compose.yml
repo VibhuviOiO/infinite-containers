@@ -1,0 +1,46 @@
+# Brings up the thing under test (OpenLDAP, with cn=Monitor enabled) and the
+# openldap-exporter that reads it. Prometheus and Grafana are NOT here - they
+# live in the stack root, so the exporter stays out of the monitoring runtime.
+networks:
+  monitoring:
+    external: true
+
+services:
+  openldap:
+    image: ghcr.io/vibhuvioio/openldap:latest
+    container_name: openldap-vibhuvioio
+    hostname: openldap-vibhuvioio
+    env_file:
+      - .env.vibhuvioio
+    environment:
+      # Without this there is no cn=Monitor and the connection, operation,
+      # thread and LMDB series are simply absent.
+      - ENABLE_MONITORING=true
+    ports:
+      - "389:389"
+    volumes:
+      - ldap-data:/var/lib/ldap
+      - ldap-config:/etc/openldap/slapd.d
+      - ./logs:/logs
+    restart: unless-stopped
+    networks:
+      - monitoring
+
+  openldap-exporter:
+    image: vibhuvioio/openldap-exporter:latest
+    container_name: openldap-exporter
+    depends_on:
+      - openldap
+    env_file:
+      - .env.vibhuvioio
+    volumes:
+      - ./openldap-exporter.yml:/etc/openldap-exporter/openldap-exporter.yml:ro
+    ports:
+      - "9330:9330"
+    restart: unless-stopped
+    networks:
+      - monitoring
+
+volumes:
+  ldap-data:
+  ldap-config:

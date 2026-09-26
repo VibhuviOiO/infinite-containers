@@ -1,0 +1,13 @@
+tmp
+etc-grafana
+.DS_Store
+
+# Fetched from the exporter repo by ./fetch-rules.sh - do not commit a copy
+conf/prometheus/rules/*.yml
+conf/grafana/dashboards/*.json
+
+# Per-stack credentials; the .example templates are committed
+exporters/*/.env.*
+!exporters/*/.env.*.example
+exporters/*/logs/
+datasources/*/.env.*

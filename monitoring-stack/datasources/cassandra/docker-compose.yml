@@ -1,0 +1,20 @@
+services:
+  cassandra-one:
+    image: cassandra:4.0
+    container_name: cassandra
+    volumes:
+      - ./tmp/cassandra:/var/lib/cassandra/
+    ports:
+      - 9042:9042
+    environment:
+      - CASSANDRA_CLUSTER_NAME='sample-cluster'
+      - CASSANDRA_NUM_TOKENS=256
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DC=sample-datacenter-one
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0
+    restart: always
+    networks:
+      - monitoring
+networks:
+  monitoring:
+    external: true

@@ -1,0 +1,44 @@
+global:
+  scrape_interval: 30s
+  scrape_timeout: 10s
+
+rule_files:
+  # All rules live here. openldap.rules.yml is fetched from the exporter repo
+  # by ./fetch-rules.sh so it is maintained in exactly one place.
+  - /etc/prometheus/rules/*.yml
+
+scrape_configs:
+  - job_name: services
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['prometheus:9090', 'idonotexists:564']
+  - job_name: cadvisor
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['cadvisor:8080']
+  - job_name: 'mysql'
+    static_configs:
+      - targets: ['mysql-exporter:9104']
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - http://prometheus.io
+        - https://prometheus.io
+        - http://example.com:8080
+        - https://google.com
+        - https://swagup.com
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115
+  - job_name: openldap
+    # One scrape per configured OpenLDAP target; the exporter fans out itself.
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['openldap-exporter:9330']

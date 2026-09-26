@@ -1,0 +1,38 @@
+services:
+  prometheus:
+    image: prom/prometheus:v2.33.3
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./conf/prometheus/:/etc/prometheus/
+      - ./conf/prometheus/rules/:/etc/prometheus/rules/:ro
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    networks:
+      - monitoring
+  grafana:
+    image: grafana/grafana:8.4.1
+    container_name: grafana
+    restart: unless-stopped
+    user: '0'
+    volumes:
+      - ./conf/grafana/provisioning/:/etc/grafana/provisioning/
+      - ./conf/grafana/dashboards/:/etc/grafana/dashboards/:ro
+      - ./conf/grafana/conf:/usr/share/grafana/conf
+      - ./tmp/grafana:/var/lib/grafana
+    environment:
+      - GF_LOG_LEVEL=debug
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    ports:
+      - 3000:3000
+    networks:
+      - monitoring
+networks:
+  monitoring:
+    # Explicit name: sub-stacks (exporters/, datasources/) attach to this
+    # network as external, so it must not get the compose project prefix.
+    name: monitoring

@@ -1,0 +1,18 @@
+version: '3'
+networks:
+    monitoring:
+      external: true
+services:
+  blackbox:
+    image: prom/blackbox-exporter:v0.19.0
+    container_name: blackbox_exporter
+    networks:
+      - monitoring
+    command:
+      - --config.file=/config/blackbox.yml
+      - --web.listen-address=:9115
+    ports:
+      - "9115:9115"
+    volumes:
+      - ./config:/config
+    restart: unless-stopped
