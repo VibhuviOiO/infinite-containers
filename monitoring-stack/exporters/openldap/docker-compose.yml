@@ -1,36 +1,21 @@
-# Brings up the thing under test (OpenLDAP, with cn=Monitor enabled) and the
-# openldap-exporter that reads it. Prometheus and Grafana are NOT here - they
-# live in the stack root, so the exporter stays out of the monitoring runtime.
+# Three exporter instances, one per directory - the pattern the exporter's
+# docs/PROMETHEUS.md prescribes for more than one estate. Prometheus attaches a
+# `cluster` label to each (conf/prometheus/prometheus.yml), which is what the
+# Grafana dashboard's $cluster variable reads.
+#
+# The directories themselves are NOT defined here: they come from
+# openldap-usecases (vibhuvioio-com-singlenode, oiocloud-com-multinode,
+# acme-com-twinnode), so their config is maintained in exactly one place.
 networks:
   monitoring:
     external: true
+  ldap-shared-network:
+    external: true
 
 services:
-  openldap:
-    image: ghcr.io/vibhuvioio/openldap:latest
-    container_name: openldap-vibhuvioio
-    hostname: openldap-vibhuvioio
-    env_file:
-      - .env.vibhuvioio
-    environment:
-      # Without this there is no cn=Monitor and the connection, operation,
-      # thread and LMDB series are simply absent.
-      - ENABLE_MONITORING=true
-    ports:
-      - "389:389"
-    volumes:
-      - ldap-data:/var/lib/ldap
-      - ldap-config:/etc/openldap/slapd.d
-      - ./logs:/logs
-    restart: unless-stopped
-    networks:
-      - monitoring
-
   openldap-exporter:
     image: vibhuvioio/openldap-exporter:latest
     container_name: openldap-exporter
-    depends_on:
-      - openldap
     env_file:
       - .env.vibhuvioio
     volumes:
@@ -40,7 +25,32 @@ services:
     restart: unless-stopped
     networks:
       - monitoring
+      - ldap-shared-network
 
-volumes:
-  ldap-data:
-  ldap-config:
+  openldap-exporter-alt:
+    image: vibhuvioio/openldap-exporter:latest
+    container_name: openldap-exporter-alt
+    env_file:
+      - .env.vibhuvioio
+    volumes:
+      - ./openldap-exporter-alt.yml:/etc/openldap-exporter/openldap-exporter.yml:ro
+    ports:
+      - "9331:9331"
+    restart: unless-stopped
+    networks:
+      - monitoring
+      - ldap-shared-network
+
+  openldap-exporter-acme:
+    image: vibhuvioio/openldap-exporter:latest
+    container_name: openldap-exporter-acme
+    env_file:
+      - .env.vibhuvioio
+    volumes:
+      - ./openldap-exporter-acme.yml:/etc/openldap-exporter/openldap-exporter.yml:ro
+    ports:
+      - "9332:9332"
+    restart: unless-stopped
+    networks:
+      - monitoring
+      - ldap-shared-network

@@ -1,0 +1,28 @@
+# Exporter C. Scraped by Prometheus with labels: { cluster: acme }
+# `entries:` is GLOBAL to an exporter instance, not per target - which is the
+# real reason to run one exporter per directory rather than one for everything.
+listen: ":9332"
+metrics_path: /metrics
+scrape_timeout: 10s
+
+defaults:
+  bind_dn: cn=Manager,dc=acme,dc=com
+  password: ${ACME_ADMIN_PASSWORD}
+  # This image's config database bind DN is cn=config, not cn=admin,cn=config.
+  config_bind_dn: cn=config
+  config_password: ${ACME_CONFIG_PASSWORD}
+
+targets:
+  - { name: acme-node1, uri: "ldap://openldap-acme-node1:389", group: acme, role: provider }
+  - { name: acme-node2, uri: "ldap://openldap-acme-node2:389", group: acme, role: provider }
+
+suffixes:
+  - dc=acme,dc=com
+
+entries:
+  - name: all
+    base: dc=acme,dc=com
+    filter: (objectClass=*)
+  - name: people
+    base: ou=People,dc=acme,dc=com
+    filter: (objectClass=inetOrgPerson)

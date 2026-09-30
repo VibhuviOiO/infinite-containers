@@ -1,34 +1,30 @@
-# Exporter config for the lab. ${VAR} is expanded from the environment at load
-# time, and the environment comes from .env.vibhuvioio (env_file below), so no
-# password is written here.
-
+# Exporter A. Scraped by Prometheus with labels: { cluster: vibhuvioio }
+# `entries:` is GLOBAL to an exporter instance, not per target - which is the
+# real reason to run one exporter per directory rather than one for everything.
 listen: ":9330"
 metrics_path: /metrics
 scrape_timeout: 10s
 
 defaults:
-  bind_dn: cn=Manager,dc=example,dc=com
-  password: ${LDAP_ADMIN_PASSWORD}
-
-  # cn=config access adds the syncrepl topology, serverID, keepalive/retry and
-  # olcReadOnly metrics. In this image the config database's bind DN is
-  # `cn=config`, NOT `cn=admin,cn=config` - verified by binding both.
+  bind_dn: cn=Manager,dc=vibhuvioio,dc=com
+  password: ${VIBHUVIOIO_ADMIN_PASSWORD}
+  # This image's config database bind DN is cn=config, not cn=admin,cn=config.
   config_bind_dn: cn=config
-  config_password: ${LDAP_CONFIG_PASSWORD}
+  config_password: ${VIBHUVIOIO_CONFIG_PASSWORD}
 
 targets:
-  - name: openldap
-    uri: ldap://openldap:389
-    group: lab
+  - name: vibhuvioio-single
+    uri: ldap://openldap-vibhuvioio:389
+    group: vibhuvioio
     role: provider
 
 suffixes:
-  - dc=example,dc=com
+  - dc=vibhuvioio,dc=com
 
 entries:
   - name: all
-    base: dc=example,dc=com
+    base: dc=vibhuvioio,dc=com
     filter: (objectClass=*)
   - name: people
-    base: ou=People,dc=example,dc=com
+    base: ou=People,dc=vibhuvioio,dc=com
     filter: (objectClass=inetOrgPerson)

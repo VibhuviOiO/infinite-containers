@@ -38,7 +38,14 @@ scrape_configs:
       - target_label: __address__
         replacement: blackbox:9115
   - job_name: openldap
-    # One scrape per configured OpenLDAP target; the exporter fans out itself.
+    # One scrape per exporter INSTANCE. `labels:` here is attached by Prometheus
+    # to every metric from that target, which is where the dashboard's $cluster
+    # variable comes from - the exporter never emits a cluster label itself.
     scrape_interval: 30s
     static_configs:
       - targets: ['openldap-exporter:9330']
+        labels: { cluster: vibhuvioio }
+      - targets: ['openldap-exporter-alt:9331']
+        labels: { cluster: oiocloud }
+      - targets: ['openldap-exporter-acme:9332']
+        labels: { cluster: acme }

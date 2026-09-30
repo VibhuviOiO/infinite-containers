@@ -1,0 +1,27 @@
+# Exporter B. Scraped by Prometheus with labels: { cluster: oiocloud }
+# Same group name on all three so lag is compared between them.
+listen: ":9331"
+metrics_path: /metrics
+scrape_timeout: 10s
+
+defaults:
+  bind_dn: cn=Manager,dc=oiocloud,dc=com
+  password: ${OIOCLOUD_ADMIN_PASSWORD}
+  config_bind_dn: cn=config
+  config_password: ${OIOCLOUD_CONFIG_PASSWORD}
+
+targets:
+  - { name: oiocloud-node1, uri: "ldap://openldap-oiocloud-node1:389", group: oiocloud, role: provider }
+  - { name: oiocloud-node2, uri: "ldap://openldap-oiocloud-node2:389", group: oiocloud, role: provider }
+  - { name: oiocloud-node3, uri: "ldap://openldap-oiocloud-node3:389", group: oiocloud, role: provider }
+
+suffixes:
+  - dc=oiocloud,dc=com
+
+entries:
+  - name: all
+    base: dc=oiocloud,dc=com
+    filter: (objectClass=*)
+  - name: people
+    base: ou=People,dc=oiocloud,dc=com
+    filter: (objectClass=inetOrgPerson)
