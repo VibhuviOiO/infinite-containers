@@ -1,0 +1,83 @@
+# ============================================================
+# VibhuviOiO LDAP Users
+# ============================================================
+
+dn: uid=superadmin,ou=People,dc=vibhuvioio,dc=com
+objectClass: inetOrgPerson
+uid: superadmin
+cn: Super Admin
+sn: Admin
+givenName: Super
+mail: superadmin@vibhuvioio.com
+userPassword: password123
+
+dn: uid=admin,ou=People,dc=vibhuvioio,dc=com
+objectClass: inetOrgPerson
+uid: admin
+cn: Infra Admin
+sn: Admin
+givenName: Infra
+mail: admin@vibhuvioio.com
+userPassword: password123
+
+dn: uid=developer,ou=People,dc=vibhuvioio,dc=com
+objectClass: inetOrgPerson
+uid: developer
+cn: Infra Developer
+sn: Developer
+givenName: Infra
+mail: developer@vibhuvioio.com
+userPassword: password123
+
+dn: uid=manager,ou=People,dc=vibhuvioio,dc=com
+objectClass: inetOrgPerson
+uid: manager
+cn: Infra Manager
+sn: Manager
+givenName: Infra
+mail: manager@vibhuvioio.com
+userPassword: password123
+
+dn: uid=cxp,ou=People,dc=vibhuvioio,dc=com
+objectClass: inetOrgPerson
+uid: cxp
+cn: CXP User
+sn: User
+givenName: CXP
+mail: cxp@vibhuvioio.com
+userPassword: password123
+
+
+# ============================================================
+# VibhuviOiO Roles / Groups
+# ============================================================
+
+dn: cn=SuperAdmin,ou=Group,dc=vibhuvioio,dc=com
+objectClass: groupOfNames
+cn: SuperAdmin
+description: VibhuviOiO Super Administrators
+member: uid=superadmin,ou=People,dc=vibhuvioio,dc=com
+
+dn: cn=Admin,ou=Group,dc=vibhuvioio,dc=com
+objectClass: groupOfNames
+cn: Admin
+description: VibhuviOiO Administrators
+member: uid=admin,ou=People,dc=vibhuvioio,dc=com
+
+dn: cn=Developer,ou=Group,dc=vibhuvioio,dc=com
+objectClass: groupOfNames
+cn: Developer
+description: VibhuviOiO Developers
+member: uid=developer,ou=People,dc=vibhuvioio,dc=com
+
+dn: cn=Manager,ou=Group,dc=vibhuvioio,dc=com
+objectClass: groupOfNames
+cn: Manager
+description: VibhuviOiO Managers
+member: uid=manager,ou=People,dc=vibhuvioio,dc=com
+
+dn: cn=CXP,ou=Group,dc=vibhuvioio,dc=com
+objectClass: groupOfNames
+cn: CXP
+description: VibhuviOiO Customer Experience
+member: uid=cxp,ou=People,dc=vibhuvioio,dc=com

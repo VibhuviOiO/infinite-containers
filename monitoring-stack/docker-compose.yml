@@ -1,6 +1,6 @@
 services:
   prometheus:
-    image: prom/prometheus:v2.33.3
+    image: prom/prometheus:v3.15.0
     container_name: prometheus
     restart: unless-stopped
     volumes:
@@ -13,20 +13,26 @@ services:
     networks:
       - monitoring
   grafana:
-    image: grafana/grafana:8.4.1
+    image: grafana/grafana:13.2.2
     container_name: grafana
     restart: unless-stopped
     user: '0'
     volumes:
       - ./conf/grafana/provisioning/:/etc/grafana/provisioning/
       - ./conf/grafana/dashboards/:/etc/grafana/dashboards/:ro
-      - ./conf/grafana/conf:/usr/share/grafana/conf
+      # ./conf/grafana/conf used to be mounted over /usr/share/grafana/conf. That
+      # replaced the image's own defaults.ini with an 8.4.1-era copy and Grafana 13
+      # refused to start: "missing configuration for current encryption provider".
+      # Provisioning is the supported way to configure Grafana.
       - ./tmp/grafana:/var/lib/grafana
     environment:
       - GF_LOG_LEVEL=debug
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+      # Lab convenience: the dashboard is viewable without logging in. Viewer
+      # only - it cannot change anything. Drop these two for anything shared.
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
     ports:
       - 3000:3000
     networks:

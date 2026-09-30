@@ -1,0 +1,178 @@
+{
+  "realm": "vibhuvioio",
+  "displayName": "VibhuviOiO",
+  "enabled": true,
+
+  "sslRequired": "none",
+
+  "registrationAllowed": false,
+  "registrationEmailAsUsername": false,
+  "rememberMe": true,
+  "verifyEmail": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+
+  "accessTokenLifespan": 300,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+
+  "components": {
+    "org.keycloak.storage.UserStorageProvider": [
+      {
+        "name": "VibhuviOiO LDAP",
+        "providerId": "ldap",
+
+        "config": {
+          "enabled": [
+            "true"
+          ],
+          "priority": [
+            "0"
+          ],
+          "importEnabled": [
+            "true"
+          ],
+
+          "fullSyncPeriod": [
+            "60"
+          ],
+          "changedSyncPeriod": [
+            "60"
+          ],
+
+          "connectionUrl": [
+            "ldap://openldap:389"
+          ],
+          "bindDn": [
+            "cn=Manager,dc=vibhuvioio,dc=com"
+          ],
+          "bindCredential": [
+            "Password123"
+          ],
+
+          "usersDn": [
+            "ou=People,dc=vibhuvioio,dc=com"
+          ],
+
+          "usernameLDAPAttribute": [
+            "uid"
+          ],
+          "rdnLDAPAttribute": [
+            "uid"
+          ],
+          "uuidLDAPAttribute": [
+            "entryUUID"
+          ],
+
+          "userObjectClasses": [
+            "inetOrgPerson"
+          ],
+
+          "editMode": [
+            "READ_ONLY"
+          ],
+
+          "vendor": [
+            "other"
+          ],
+          "authType": [
+            "simple"
+          ],
+
+          "searchScope": [
+            "2"
+          ],
+          "pagination": [
+            "true"
+          ],
+          "connectionPooling": [
+            "true"
+          ],
+
+          "syncRegistrations": [
+            "false"
+          ]
+        },
+
+        "subComponents": {
+          "org.keycloak.storage.ldap.mappers.LDAPStorageMapper": [
+            {
+              "name": "email",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": [
+                  "mail"
+                ],
+                "user.model.attribute": [
+                  "email"
+                ],
+                "read.only": [
+                  "true"
+                ],
+                "always.read.value.from.ldap": [
+                  "true"
+                ]
+              }
+            },
+            {
+              "name": "username",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": [
+                  "uid"
+                ],
+                "user.model.attribute": [
+                  "username"
+                ],
+                "read.only": [
+                  "true"
+                ],
+                "always.read.value.from.ldap": [
+                  "true"
+                ]
+              }
+            },
+            {
+              "name": "first name",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": [
+                  "givenName"
+                ],
+                "user.model.attribute": [
+                  "firstName"
+                ],
+                "read.only": [
+                  "true"
+                ],
+                "always.read.value.from.ldap": [
+                  "true"
+                ]
+              }
+            },
+            {
+              "name": "last name",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": [
+                  "sn"
+                ],
+                "user.model.attribute": [
+                  "lastName"
+                ],
+                "read.only": [
+                  "true"
+                ],
+                "always.read.value.from.ldap": [
+                  "true"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

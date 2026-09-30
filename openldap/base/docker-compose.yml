@@ -1,0 +1,36 @@
+services:
+  openldap:
+    image: vibhuvioio/openldap:latest
+    container_name: openldap
+    hostname: openldap
+    environment: 
+      LDAP_DOMAIN: vibhuvioio.com
+      LDAP_BASE_DN: dc=vibhuvioio,dc=com
+      LDAP_ADMIN_DN: cn=Manager,dc=vibhuvioio,dc=com
+      LDAP_ADMIN_PASSWORD: Password123
+      LDAP_ROOT_PASSWORD: Password123
+      LDAP_ORGANISATION: VibhuviOiO
+      INCLUDE_SCHEMAS: cosine,inetorgperson,nis
+      ENABLE_REPLICATION: false
+      SERVER_ID: 1
+      ENABLE_MONITORING: true
+    ports:
+      - "389:389"
+      - "636:636"
+    volumes:
+      - ldap-data:/var/lib/ldap
+      - ldap-config:/etc/openldap/slapd.d
+      - ./logs:/logs
+      - ./init/employee_data_global.ldif:/data/employee_data_global.ldif:ro
+      - ./init/init-data.sh:/docker-entrypoint-initdb.d/init-data.sh:ro
+    restart: unless-stopped
+    networks:
+      - vibhuvioio-network
+
+volumes:
+  ldap-data:
+  ldap-config:
+
+networks:
+  vibhuvioio-network:
+    external: true

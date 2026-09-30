@@ -1,0 +1,46 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    restart: unless-stopped
+
+    command:
+      - start-dev
+      - --import-realm
+
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin123
+      KC_HTTP_PORT: 8080
+      KC_HEALTH_ENABLED: "true"
+      KC_METRICS_ENABLED: "true"
+      KC_ADMIN: admin
+      KC_ADMIN_PASSWORD: admin123
+      LDAP_ADMIN_PASSWORD: Password123
+
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ./realm:/opt/keycloak/data/import:ro
+
+    networks:
+      - vibhuvioio-network
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - exec 3<>/dev/tcp/127.0.0.1/8080
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  keycloak_data:
+    name: keycloak_data
+
+networks:
+  vibhuvioio-network:
+    external: true

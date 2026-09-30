@@ -1,5 +1,4 @@
 # Cassandra Operations
-
 1.  [Running Cassandra as a Docker Container with Docker Compose](https://jinnabaalu.medium.com/running-single-node-cassandra-container-d983e0273258)
 2.  [Accessing and Interacting with Cassandra Containers via CQL](https://jinnabaalu.medium.com/accessing-and-interacting-with-cassandra-containers-via-cql-3c56e5a84631)
 3. Dump and Restore the keyspace
